@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
     
     
     <title>Document</title>
@@ -66,14 +68,16 @@
                     
                     <br>
                     <div class="col s12 m12 l12">
-                        <table class="highlight centered responsive-table">
-                        <tr>
-                            <th>User ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Action</th> 
-                        </tr>
-                        
+                        <table id="myTable" class="highlight centered responsive-table display">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Action</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
                         <?php if(!empty($users)) : ?>
                             <?php foreach($users as $index => $user) : ?>
                                 <tr>
@@ -86,11 +90,8 @@
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="4">No Data Found</td>
-                            </tr>
                         <?php endif; ?>
+                        </tbody>
                         </table>
                     </div>
                 </div>
@@ -107,4 +108,7 @@
 </html>
 
 <script>
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    });
 </script>

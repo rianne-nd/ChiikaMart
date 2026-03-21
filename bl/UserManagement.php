@@ -71,9 +71,11 @@
             $fnameColumn = array_column($_SESSION['userArray'], 'FirstName'); // get array of first names
             $lnameColumn = array_column($_SESSION['userArray'], 'LastName'); // get array of last names
 
+            // $firstName and $lastName are recieved from loginUserFunc in UserController.php, it is the needle we are looking for inside the haystack collumn $fnameColumn and $lnameColumn. If both the first name and last name are found in their respective columns, we return "true". If either the first name or last name is not found, we return "false". This allows us to check if a user's first and last name exist in the session array for login purposes.
             $fNameSearch = array_search($firstName, $fnameColumn); // search for first name in array
             $lNameSearch = array_search($lastName, $lnameColumn); // search for last name in array
 
+            // Check if both the first name and last name are found in their respective columns. If both are found, return "true". If either is not found, return "false".
             if ($fNameSearch !== false && $lNameSearch !== false) {
                 echo "true";
             } else{

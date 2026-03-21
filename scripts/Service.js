@@ -126,8 +126,8 @@ function redirectFunc(redirectID) {
 }
 
 function loginFunc() {
-    var loginFirstName = document.getElementById("txtFirstname").value;
-    var loginLastName = document.getElementById("txtLastname").value;
+    var loginFirstName = document.getElementById("login_fName").value;
+    var loginLastName = document.getElementById("login_lName").value;
     $.ajax({
         url: '../controllers/UserController.php', 
         type: 'POST',
@@ -144,10 +144,13 @@ function loginFunc() {
                     confirmButtonText: "OK"
                 });
                 
+                // Display the logged-in user's first and last name on the page after successful login
                 var userInfoDiv = document.getElementById("userInfo");
                 if (userInfoDiv) {
                     userInfoDiv.innerHTML = "<h4>User Info</h4><p>First Name: " + loginFirstName + "</p><p>Last Name: " + loginLastName + "</p>";
                 }
+
+                redirectFunc(3); // Redirect to dashboard after successful login
             } else {
                 Swal.fire({
                     title: "Error!",
