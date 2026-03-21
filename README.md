@@ -14,6 +14,9 @@ A PHP session-based user management application following an MVC-style architect
 │   └── UserController.php       # Request router - handles all POST requests
 ├── css/                         # Stylesheets (empty)
 ├── images/                      # Image assets (empty)
+├── model/                       # Data models and database configuration
+│   ├── database.php             # PDO database connection setup
+│   └── registrationModel.php    # Handles registration SQL queries
 ├── scripts/
 │   └── Service.js               # Client-side AJAX service functions
 ├── views/
@@ -29,16 +32,37 @@ A PHP session-based user management application following an MVC-style architect
 
 ### `bl/UserManagement.php`
 
-Business logic layer. Contains the `UserManagement` class which manages users stored in `$_SESSION['userArray']`.
+Business logic layer. Contains the `UserManagement` class which manages users. Recently updated to integrate with the database for adding users.
 
 | Function | Parameters | Description |
 |---|---|---|
-| `__construct()` | — | Initializes `$_SESSION['userArray']` as an empty array if it does not already exist. |
-| `addUserFunc()` | `$firstName`, `$lastName` | Appends a new user associative array (`FirstName`, `LastName`) to the session array. Echoes the new total count. |
+| `__construct()` | — | Establishes the database connection using the `Database` class and initializes the `Registration` model. |
+| `addUserFunc()` | `$firstName`, `$lastName` | Calls the `createRegistration` method of the registration model to insert a new user into the database. |
 | `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | Updates the `FirstName` and `LastName` of the user at index `$userID` in the session array. |
 | `deleteUserFunc()` | `$userID` | Removes the user at index `$userID` using `unset()`, then re-indexes the array with `array_values()`. |
 | `getUser()` | — | Returns the full `$_SESSION['userArray']`, or an empty array if the session variable is not set. |
 | `loginUserFunc()` | `$firstName`, `$lastName` | Searches the session array for a matching first and last name using `array_search()`. Echoes `"true"` if found, otherwise `"false"`. |
+
+---
+
+### `model/database.php`
+
+Database connection layer. Connects the project to a MySQL database using PDO.
+
+| Function | Parameters | Description |
+|---|---|---|
+| `connect()` | — | Establishes and returns a PDO connection to the `projectappdev_db` database using a try-catch block for error handling. Uses `localhost` and standard XAMPP credentials. |
+
+---
+
+### `model/registrationModel.php`
+
+Data model responsible for SQL queries and database manipulation related to registrations.
+
+| Function | Parameters | Description |
+|---|---|---|
+| `__construct()` | `$db` | Stores the active database connection in a private variable. |
+| `createRegistration()` | `$firstName, $lastName` | Prepares and executes an `INSERT INTO tbl_registration` query to add a new user to the database using securely bound parameters. |
 
 ---
 
@@ -110,5 +134,5 @@ Placeholder HTML page. Currently contains only a bare HTML5 shell with no conten
 2. Entering a first and last name and clicking **ADD** triggers `addFunc()` in `Service.js`.
 3. `Service.js` sends a jQuery AJAX POST to `UserController.php`.
 4. `UserController.php` routes the request to the correct method in `UserManagement.php`.
-5. `UserManagement.php` performs the operation on `$_SESSION['userArray']` and returns a response.
-6. The page reloads to reflect the updated user list.
+5. `UserManagement.php` performs the operation (e.g., storing the new user in the database or modifying the session) and returns a response.
+6. The page reloads and fetches the updated data.

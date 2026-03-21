@@ -1,5 +1,8 @@
 <?php
-// UserManagement.php
+require_once '../model/database.php';
+require_once '../model/registrationModel.php';
+// import database connection and registration model to use in the UserManagement class for database interactions related to user management, such as storing user data in a database instead of using PHP sessions. 
+
 // This file contains the UserManagement class which handles user-related operations such as adding, updating, deleting, and retrieving users. It uses PHP sessions to store user data in an array format. The class also includes a login function that checks if a user's first and last name exist in the session array.
 
     class UserManagement{ 
@@ -16,7 +19,9 @@
         // The class also does not include any security measures for handling user data, such as password hashing or input validation, which should be implemented in a real-world application to protect user information and prevent security vulnerabilities.
         // Additionally, the loginUserFunc method is a very basic implementation and should be enhanced to include proper authentication mechanisms, such as password verification and session management for logged-in users.
                             
-        
+
+        private $regsModel;
+
 
         // public is used to allow access to the class and its methods from outside the class, such as from controllers or views. It allows other parts of the application to create instances of the UserManagement class and call its methods to manage user data stored in PHP sessions.
         // private would restrict access to the class and its methods, making it inaccessible from outside the class. This would prevent other parts of the application from using the UserManagement class to manage user data, which is not desirable in this case since we want to allow interaction with the class from controllers and views.
@@ -25,22 +30,34 @@
         // When a new instance of the UserManagement class is created, the constructor checks if the session variable 'userArray' exists. If it does not exist, it initializes 'userArray' as an empty array to hold user data. This ensures that the session variable is always available for storing user information when methods of the UserManagement class are called.
         public function __construct()
         {
-            if(!isset($_SESSION['userArray'])){ // check if session variable exists
-                $_SESSION['userArray'] = []; // Initialize session variable to hold user data, 
-            }
+            $database = new Database(); // class from database.php, used to establish a connection to the database. 
+            $db = $database->connect(); // function from database.php, used to establish a connection to the database and return the connection object. This allows the UserManagement class to interact 
+        
+            // Initializes the $regsModel property of the UserManagement class, containing functions in our registrationModel.php
+            $this->regsModel = new Registration($db); // class from registrationModel.php, used to handle registration-related operations such as creating new registrations in the database. By passing the database connection ($db) to the constructor of the Registration class, we can ensure that the UserManagement class has access to the necessary database connection for performing registration operations when needed.
         }
 
         public function addUserFunc($firstName, $lastName): void {
             try {
-                // need to check if array exits before adding to it 
-                if(isset($_SESSION['userArray'])){
-                    $_SESSION['userArray'][] = [
-                        'FirstName' => $firstName,
-                        'LastName' => $lastName
-                    ];
+                // // need to check if array exits before adding to it 
+                // if(isset($_SESSION['userArray'])){
+                //     $_SESSION['userArray'][] = [
+                //         'FirstName' => $firstName,
+                //         'LastName' => $lastName
+                //     ];
 
-                    echo count($_SESSION['userArray']);
+                //     echo count($_SESSION['userArray']);
+                // }
+
+                // Call the createRegistration method of the $regsModel object to create a new registration record in the database
+                if($this->regsModel->createRegistration($firstName, $lastName)) {
+                    echo "User is added successfully.";
+                } else {
+                    // If the registration creation fails, return an error response
+                    http_response_code(500);
+                    echo "Failed to create registration.";
                 }
+
             } catch (InvalidArgumentException $ex) {
                 // Handle exception
                 http_response_code(500);
