@@ -4,10 +4,10 @@ This document outlines the granular, step-by-step technical implementation plan 
 
 ---
 
-## [ ] Phase 1: Database Initialization (Foundation)
+## [x] Phase 1: Database Initialization (Foundation)
 **Goal:** Prepare the MySQL database and update the PDO connection to target the new tables.
-- [ ] **Step 1:** Open `phpMyAdmin` and run the full `chiikamart_db` SQL setup script.
-- [ ] **Step 2:** Open `1811/model/database.php`.
+- [x] **Step 1:** Open `phpMyAdmin` and run the full `chiikamart_db` SQL setup script.
+- [x] **Step 2:** Open `1811/model/database.php`.
   - **Variables to Update:** 
     - Change `private $db_name = "projectappdev_db";` to `private $db_name = "chiikamart_db";`.
     - Ensure `private $port = "3307";` remains correctly configured.
@@ -50,16 +50,16 @@ This document outlines the granular, step-by-step technical implementation plan 
 
 ---
 
-## [ ] Phase 4: Update Views & Client Scripts (The UI)
+## [x] Phase 4: Update Views & Client Scripts (The UI)
 **Goal:** Adjust HTML forms and AJAX to collect user credentials instead of names.
-- [ ] **Step 1:** Open `1811/views/RegistrationPage.php`.
+- [x] **Step 1:** Open `1811/views/RegistrationPage.php`.
   - **HTML to Update:** 
     - Change First Name id to `id="txtFirstName"`.
     - Change Last Name input to **Email**: `id="txtEmail"` (type="email").
     - Add **Password** input: `id="txtPassword"` (type="password").
-- [ ] **Step 2:** Open `1811/views/LoginPage.php`.
+- [x] **Step 2:** Open `1811/views/LoginPage.php`.
   - **HTML to Update:** Change login inputs to `id="login_email"` and `id="login_password"`.
-- [ ] **Step 3:** Open `1811/scripts/Service.js`.
+- [x] **Step 3:** Open `1811/scripts/Service.js`.
   - **AJAX Add to Update (`addFunc`):**
     - `let fName = $("#txtFirstName").val();`, `let email = $("#txtEmail").val();`, `let password = $("#txtPassword").val();`
     - `data: { firstName: fName, email: email, password: password }`
@@ -89,7 +89,7 @@ This document outlines the granular, step-by-step technical implementation plan 
 ---
 
 ## ✅ Midterm Deliverables Checklist
-- [ ] **1. Login:** Verifies hashed passwords against the DB and stores role in the Session.
-- [ ] **2. Register:** Safely hashes passwords and inserts into 'chiikamart_db.users'.
+- [x] **1. Login:** Verifies hashed passwords against the DB and stores role in the Session.
+- [x] **2. Register:** Safely hashes passwords and inserts into 'chiikamart_db.users'.
 - [ ] **3. Dashboard (Admin):** Detects `roleID == 1` and provides branching visual logic.
-- [ ] **4. Database:** Fully connected via PDO without `userArray` bypasses.
+- [x] **4. Database:** Fully connected via PDO without `userArray` bypasses.

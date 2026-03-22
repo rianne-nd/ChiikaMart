@@ -54,11 +54,11 @@ This file contains the core logic inside the `UserManagement` class. Think of it
 | Function | Parameters | Description / How it works |
 |---|---|---|
 | `__construct()` | — | The "Setup" function. When this class is called, it automatically establishes the database connection using the `Database` class and opens up the `Registration` model so we can run SQL queries. |
-| `addUserFunc()` | `$firstName`, `$lastName` | Takes the typed-in names and passes them directly to the `createRegistration` method. This saves the user to the `tbl_registration` table in the database. |
+| `addUserFunc()` | `$firstName`, `$email`, `$password` | Hashes the password securely, then passes the details to the `createRegistration` method. This saves the user to the `users` table safely in the database. |
 | `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | *Legacy:* Currently updates the `FirstName` and `LastName` of the user inside the temporary PHP `$_SESSION` array. |
 | `deleteUserFunc()` | `$userID` | *Legacy:* Removes the targeted user from the `$_SESSION` array by using PHP's `unset()` function, then re-indexes the array cleanly. |
 | `getUser()` | — | *Legacy:* Fetches and returns all currently tracked users from `$_SESSION['userArray']`. If there's no session, it safely returns an empty array. |
-| `loginUserFunc()` | `$firstName`, `$lastName` | Searches the current session array for matched names. It replies with `"true"` if the user exists, and `"false"` if they do not. |
+| `loginUserFunc()` | `$email`, `$password` | Searches the database for the given email, and utilizes `password_verify()` to confirm the string matches the hash stored in the DB. Replies with `"true"` if the user securely authenticates. |
 
 ---
 
@@ -90,10 +90,10 @@ Starts the session, instantiates `UserManagement`, it listens strictly to **POST
 
 | POST Keys Detected | Action It Triggers in Business Logic |
 |---|---|
-| If `fname` and `lName` are received | Triggers `addUserFunc()` → Adds user to DB |
+| If `firstName`, `email`, and `password` are received | Triggers `addUserFunc()` → Adds user to DB safely hashed |
 | If `uFName`, `uLName`, and `uID` are received | Triggers `updateUserFunc()` → Modifies user |
 | If `dID` is received | Triggers `deleteUserFunc()` → Erases user |
-| If `lFName` and `lLName` are received | Triggers `loginUserFunc()` → Tries to log in |
+| If `login_email` and `login_password` are received | Triggers `loginUserFunc()` → Tries to securely log in |
 
 ---
 
@@ -103,11 +103,11 @@ This JavaScript file is loaded on the user's browser. It uses **jQuery AJAX** to
 
 | Function | Parameters | Description / How it works |
 |---|---|---|
-| `addFunc()` | — | Reads `txtFirstname` and `txtLastname` input values. Behind the scenes, it sends a secret POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
+| `addFunc()` | — | Reads `txtFirstname`, `txtEmail`, and `txtPassword` input values. Behind the scenes, it sends a secret POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
 | `updateFunc()` | `userID` |   Reads  `txtFirstname`  and  `txtLastname`  input values, it grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
 | `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the given `userID` to the Controller, alerts success, and refreshes. |
 | `redirectFunc()` | `redirectID` | Simple navigation. `1` takes you to Login, `2` to Dashboard, and `3` to Registration. |
-| `loginFunc()` | — | Captures `login_fName` and `login_lName` input values and asks the Controller if they are valid. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
+| `loginFunc()` | — | Captures `login_email` and `login_password` input values and asks the Controller if they are valid. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
 
 ---
 
@@ -139,14 +139,14 @@ What external tools are we using to make this project look and feel modern?
 As a beginner, tracking how moving parts talk to each other is vital. Let's trace the exact lifecycle of what happens when you decide to register a brand new user in the app.
 
 1.  **The User Interaction (View)**
-    The user is sitting on `RegistrationPage.php`. They type "John" and "Doe" into the text fields and click the **ADD** button.
+    The user is sitting on `RegistrationPage.php`. They type "John", "john@email.com" and a password into the text fields and click the **ADD** button.
 2.  **The Javascript Intercept (Service.js)**
-    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs the text "John" and "Doe", packages them into variables called `fname` and `lName`. It then silently sends them (via an AJAX POST request) to `UserController.php`. 
+    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs the inputs, packages them into variables called `firstName`, `email`, and `password`. It then silently sends them (via an AJAX POST request) to `UserController.php`. 
 3.  **The Traffic Cop (Controller)**
-    `UserController.php` receives the hidden package. Because it detects the keys `fname` and `lName`, it knows exactly what to do. It immediately triggers the `addUserFunc()` located in the Business Logic layer.
+    `UserController.php` receives the hidden package. Because it detects the keys `firstName`, `email` and `password`, it knows exactly what to do. It immediately triggers the `addUserFunc()` located in the Business Logic layer.
 4.  **The Brain Checks the Request (Business Logic)**
-    `UserManagement.php` wakes up. It receives "John" and "Doe". It recognizes we need to save this permanently, so it signals the MySQL Database Model (`registrationModel.php`) to prepare a `createRegistration()` action.
+    `UserManagement.php` wakes up. It receives the inputs. It safely hashes the password using `password_hash()`. It recognizes we need to save this permanently, so it signals the MySQL Database Model (`registrationModel.php`) to prepare a `createRegistration()` action.
 5.  **The Cabinet Saves the File (Model & Database)**
-    `registrationModel.php` receives the data. It connects to the MySQL Server on port 3307 using `database.php`. It securely translates the data into an SQL string: `INSERT INTO tbl_registration (firstName, lastName)...` and fires it into the database. John Doe is now permanently saved!
+    `registrationModel.php` receives the data. It connects to the MySQL Server on port 3307 using `database.php`. It securely translates the data into an SQL string: `INSERT INTO users (firstName, email, password, roleID)...` and fires it into the database. John Doe is now permanently saved!
 6.  **The Reply & The Reload (Back to View)**
-    A success signal cascades back up the chain to the Controller, which replies to `Service.js` saying "Target Aquired!". `Service.js` flashes a beautiful SweetAlert2 checkmark to the user, and finally refreshes the page so the brand new DataTables list can show John Doe sitting in the table.
+    A success signal cascades back up the chain to the Controller, which replies to `Service.js` saying "Target Aquired!". `Service.js` flashes a beautiful SweetAlert2 checkmark to the user, and finally refreshes the page so the brand new DataTables list can show John sitting in the table.

@@ -3,13 +3,15 @@
 
 function addFunc() {
     var firstName = document.getElementById("txtFirstname").value;
-    var lastName = document.getElementById("txtLastname").value;
+    var email = document.getElementById("txtEmail").value;
+    var password = document.getElementById("txtPassword").value;
     $.ajax({
-        url: '../controllers/UserController.php', 
+        url: '../controllers/UserController.php',
         type: 'POST',
-        data: { 
-            fname: firstName,
-            lName: lastName
+        data: {
+            firstName: firstName,
+            email: email,
+            password: password
         },
         success: function(returnedData){
         
@@ -126,14 +128,14 @@ function redirectFunc(redirectID) {
 }
 
 function loginFunc() {
-    var loginFirstName = document.getElementById("login_fName").value;
-    var loginLastName = document.getElementById("login_lName").value;
+    var loginEmail = document.getElementById("login_email").value;
+    var loginPassword = document.getElementById("login_password").value;
     $.ajax({
-        url: '../controllers/UserController.php', 
+        url: '../controllers/UserController.php',
         type: 'POST',
-        data: { 
-            lFName: loginFirstName,
-            lLName: loginLastName
+        data: {
+            lEmail: loginEmail,
+            lPassword: loginPassword
         },
         success: function(returnedData){
             if (returnedData.trim() === "true") {
@@ -144,10 +146,10 @@ function loginFunc() {
                     confirmButtonText: "OK"
                 });
                 
-                // Display the logged-in user's first and last name on the page after successful login
+                // Display the logged-in user's email
                 var userInfoDiv = document.getElementById("userInfo");
                 if (userInfoDiv) {
-                    userInfoDiv.innerHTML = "<h4>User Info</h4><p>First Name: " + loginFirstName + "</p><p>Last Name: " + loginLastName + "</p>";
+                    userInfoDiv.innerHTML = "<h4>User Info</h4><p>Email: " + loginEmail + "</p>";
                 }
 
                 redirectFunc(3); // Redirect to dashboard after successful login

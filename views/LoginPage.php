@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    require_once '../bl/userManagement.php';
+
+    $usermanagement = new UserManagement();
+    // users contain the current session array of users, which is retrieved by calling the getUser method of the UserManagement class. This allows the registration page to display the list of registered users and their information, such as first name and last name, in a table format on the page. The $users variable is used in the HTML part of the code to loop through the user data and generate the table rows dynamically based on the current session data.
+    $users = $usermanagement->getUser();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +21,17 @@
     <title>Login</title>
 </head>
 <body>
-    <!-- First Name -->
+    <!-- Email -->
     <div class="input-field col s6 m6 l6">
-        <i class="material-icons prefix">account_circle</i>
-        <input id="login_fName" type="text" class="validate">
-        <label for="login_fName">First Name</label>
+        <i class="material-icons prefix">email</i>
+        <input id="login_email" type="email" class="validate">
+        <label for="login_email">Email</label>
     </div>
-    <!-- Last Name -->
-    <div class="input-field col s6 m6 l6"> 
-        <i class="material-icons prefix">account_circle</i>
-        <input id="login_lName" type="text" class="validate">
-        <label for="login_lName">Last Name</label>
+    <!-- Password -->
+    <div class="input-field col s6 m6 l6">
+        <i class="material-icons prefix">lock</i>
+        <input id="login_password" type="password" class="validate">
+        <label for="login_password">Password</label>
     </div>
     <!-- Login Button -->
     <div class = "col s12 m12 l12">
@@ -35,6 +44,6 @@
     <div id="userInfo" class="col s12 m12 l12" style="margin-top: 20px; text-align: center; font-size: 1.2em;">
 
     </div>
-    <script src = "../scripts/Service.js"></script>
+    <script src = "../scripts/Service.js?v=<?= time(); ?>"></script>
 </body>
 </html>

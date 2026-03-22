@@ -47,16 +47,25 @@
                     <div>
                         <h4 class="center-align">User Registration</h4>
                     </div>
-                    <div class="input-field col s6 m6 l6">
+                    <!-- First Name input -->
+                    <div class="input-field col s12 m12 l12">
                         <i class="material-icons prefix">account_circle</i>
                         <input id="txtFirstname" type="text" class="validate">
                         <label for="txtFirstname">First Name</label>
                     </div>
-                    <div class="input-field col s6 m6 l6"> 
-                        <i class="material-icons prefix">account_circle</i>
-                        <input id="txtLastname" type="text" class="validate">
-                        <label for="txtLastname">Last Name</label>
+                    <!-- Email input -->
+                        <div class="input-field col s6 m6 l6">
+                        <i class="material-icons prefix">email</i>
+                        <input id="txtEmail" type="email" class="validate">
+                        <label for="txtEmail">Email</label>
                     </div>
+                    <!-- Password input -->
+                    <div class="input-field col s6 m6 l6">
+                        <i class="material-icons prefix">lock</i>
+                        <input id="txtPassword" type="password" class="validate">
+                        <label for="txtPassword">Password</label>
+                    </div>
+                    <!-- Add Button -->
                     <div class = "col s12 m12 l12">
                         <a class="waves-effect waves-light btn-large #0d47a1 blue darken-4" style="width: 100%;" onclick="addFunc()">
                         <i class="material-icons right">add_circle</i>
@@ -71,8 +80,9 @@
                             <tr>
                                 <th>User ID</th>
                                 <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Action</th> 
+                                <th>Email</th>
+                                <th>Password (Hashed)</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,7 +91,8 @@
                                 <tr>
                                     <td><?= $index + 1 ?></td>
                                     <td><?=  $user['FirstName'] ?></td>
-                                    <td><?=  $user['LastName'] ?></td>
+                                    <td><?=  $user['Email'] ?></td>
+                                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?= $user['Password'] ?>"><?=  $user['Password'] ?></td>
                                     <td>
                                         <a class="waves-effect waves-light btn #3f51b5 indigo" style="width: 100%; margin: 2%;" onclick="updateFunc(<?= $index ?>)"><i class="material-icons right">autorenew</i>UPDATE</a>
                                         <a class="waves-effect waves-light btn #d32f2f red darken-2" style="width: 100%; margin: 2%;" onclick="deleteFunc(<?= $index ?>)"><i class="material-icons right">remove_circle</i>DELETE</a>
@@ -98,7 +109,7 @@
         <div class = "col s4 m4 l4"></div>
     </div>
    
-        <script src = "../scripts/Service.js"></script>
+        <script src = "../scripts/Service.js?v=<?= time(); ?>"></script>
                             
     <br><br>
 </body>

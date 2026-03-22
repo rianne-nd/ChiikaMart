@@ -26,8 +26,8 @@
     } elseif(isset($_POST['dID'])) {
         $usermanagement->deleteUserFunc($_POST['dID']);
         exit;
-    } elseif(isset($_POST['login_email'], $_POST['login_password'])) {
-        $usermanagement -> loginUserFunc($_POST['login_email'], $_POST['login_password']);
+    } elseif(isset($_POST['lEmail'], $_POST['lPassword'])) {
+        $usermanagement -> loginUserFunc($_POST['lEmail'], $_POST['lPassword']);
         exit;
     }
     
