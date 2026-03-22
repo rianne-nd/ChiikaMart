@@ -93,3 +93,19 @@ This document outlines the granular, step-by-step technical implementation plan 
 - [x] **2. Register:** Safely hashes passwords and inserts into 'chiikamart_db.users'.
 - [ ] **3. Dashboard (Admin):** Detects `roleID == 1` and provides branching visual logic.
 - [x] **4. Database:** Fully connected via PDO without `userArray` bypasses.
+
+---
+
+## [ ] Phase 6: Finalize Database CRUD (Update/Delete Naming Conventions)
+**Goal:** Refactor the legacy session-based Update/Delete logic to utilize the exact same database naming conventions (First Name, Email, Password, UserID) instead of the obsolete First/Last Name structure.
+- [ ] **Step 1:** Open `1811/model/registrationModel.php`.
+  - **Methods to Add:** Create `deleteUser($userID)` and `updateUser($userID, $firstName, $email)` database commands.
+- [ ] **Step 2:** Open `1811/bl/UserManagement.php`.
+  - **Logic to Update:** Change `updateUserFunc` parameters from `$firstName`, `$lastName`, `$userID` to `$firstName`, `$email`, `$userID`.
+  - **Wiring:** Route these functions directly to the `regsModel` instead of `$_SESSION`.
+- [ ] **Step 3:** Open `1811/controllers/UserController.php`.
+  - **Router Update:** Change the expected POST keys for updates from `uFName` and `uLName` -> to `uFirstName` and `uEmail`.
+- [ ] **Step 4:** Open `1811/scripts/Service.js`.
+  - **AJAX Update to Refactor (`updateFunc`):**
+    - Grab the new HTML UI Elements: `document.getElementById("txtFirstname");` and `document.getElementById("txtEmail");` (The old txtLastname is gone).
+    - Update data payload payload to transmit: `{ uFirstName: firstName, uEmail: email, uID: userID }`.
