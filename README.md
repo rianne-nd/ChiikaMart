@@ -91,7 +91,7 @@ Starts the session, instantiates `UserManagement`, it listens strictly to **POST
 
 | POST Keys Detected | Action It Triggers in Business Logic |
 |---|---|
-| If `firstName`, `email`, and `password` are received | Triggers `addUserFunc()` → Adds user to DB safely hashed |
+| If `rFName`, `rEmail`, and `rPassword` are received | Triggers `addUserFunc()` → Adds user to DB safely hashed |
 | If `uFName`, `uLName`, and `uID` are received | Triggers `updateUserFunc()` → Modifies user *(Pending update to `uFirstName` & `uEmail`)* |
 | If `dID` is received | Triggers `deleteUserFunc()` → Erases user |
 | If `lEmail` and `lPassword` are received | Triggers `loginUserFunc()` → Tries to securely log in |
@@ -104,11 +104,11 @@ This JavaScript file is loaded on the user's browser. It uses **jQuery AJAX** to
 
 | Function | Parameters | Description / How it works |
 |---|---|---|
-| `addFunc()` | — | Reads `txtFirstname`, `txtEmail`, and `txtPassword` input values. Behind the scenes, it sends a secret POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
+| `addFunc()` | — | Reads `txtRegisterFirstname`, `txtRegisterEmail`, and `txtRegisterPassword` input values. Behind the scenes, it sends a secret POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
 | `updateFunc()` | `userID` |   Reads  `txtFirstname`  and  `txtLastname`  input values, it grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
 | `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the given `userID` to the Controller, alerts success, and refreshes. |
 | `redirectFunc()` | `redirectID` | Simple navigation. `1` takes you to Login, `2` to Dashboard, and `3` to Registration. |
-| `loginFunc()` | — | Captures `login_email` and `login_password` input values and asks the Controller if they are valid by passing `lEmail` and `lPassword`. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
+| `loginFunc()` | — | Captures `txtLoginEmail` and `txtLoginPassword` input values and asks the Controller if they are valid by passing `lEmail` and `lPassword`. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
 
 ---
 
@@ -142,9 +142,9 @@ As a beginner, tracking how moving parts talk to each other is vital. Let's trac
 1.  **The User Interaction (View)**
     The user is sitting on `RegistrationPage.php`. They type "John", "john@email.com" and a password into the text fields and click the **ADD** button.
 2.  **The Javascript Intercept (Service.js)**
-    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs the inputs, packages them into variables called `firstName`, `email`, and `password`. It then silently sends them (via an AJAX POST request) to `UserController.php`. 
+    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs the inputs, packages them into variables called `rFName`, `rEmail`, and `rPassword`. It then silently sends them (via an AJAX POST request) to `UserController.php`. 
 3.  **The Traffic Cop (Controller)**
-    `UserController.php` receives the hidden package. Because it detects the keys `firstName`, `email` and `password`, it knows exactly what to do. It immediately triggers the `addUserFunc()` located in the Business Logic layer.
+    `UserController.php` receives the hidden package. Because it detects the keys `rFName`, `rEmail` and `rPassword`, it knows exactly what to do. It immediately triggers the `addUserFunc()` located in the Business Logic layer.
 4.  **The Brain Checks the Request (Business Logic)**
     `UserManagement.php` wakes up. It receives the inputs. It safely hashes the password using `password_hash()`. It recognizes we need to save this permanently, so it signals the MySQL Database Model (`registrationModel.php`) to prepare a `createRegistration()` action.
 5.  **The Cabinet Saves the File (Model & Database)**

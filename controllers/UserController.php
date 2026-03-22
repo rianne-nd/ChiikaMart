@@ -16,9 +16,9 @@
     // If the parameter 'dID' is set, it calls the deleteUserFunc method to remove a user from the session array. 
     // Finally, if the parameters 'lFName' and 'lLName' are set, it calls the loginUserFunc method to check if a user's first and last name exist in the session array for login purposes.
    
-    if(isset($_POST['firstName'], $_POST['email'], $_POST['password'])) {
+    if(isset($_POST['rFName'], $_POST['rEmail'], $_POST['rPassword'])) {
         // Using the object $usermanagement, we call the addUserFunc method, passing the required fields received from the POST request as parameters.
-        $usermanagement->addUserFunc($_POST['firstName'], $_POST['email'], $_POST['password']);
+        $usermanagement->addUserFunc($_POST['rFName'], $_POST['rEmail'], $_POST['rPassword']);
         exit;
     } else if (isset($_POST['uFName'], $_POST['uLName'], $_POST['uID'])) {
         $usermanagement->updateUserFunc($_POST['uFName'], $_POST['uLName'], $_POST['uID']);
