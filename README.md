@@ -79,7 +79,8 @@ This file handles the exact native SQL queries and database manipulation that ta
 | Function | Parameters | Description / How it works |
 |---|---|---|
 | `__construct()` | `$db` | It catches the live database connection (from `database.php`) and saves it inside the class so the other functions can use it to talk to MySQL. |
-| `createRegistration()` | `$firstName, $lastName` | Prepares and execute an SQL statement: `INSERT INTO tbl_registration...`. It "binds" `$firstName` and `$lastName` to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
+| `createRegistration()` | `$firstName, $email, $password, $roleID` | Prepares a secure SQL statement: `INSERT INTO users...`. It safely "binds" the user's details and role to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
+| `getUserbyEmail()` | `$email` | Prepares a secure `SELECT * FROM users` statement. It executes the search and fetches the result as an associative array using `PDO::FETCH_ASSOC`. This is designed to pull user credentials out of the database for secure login comparisons. |
 
 ---
 

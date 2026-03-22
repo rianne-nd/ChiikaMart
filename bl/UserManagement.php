@@ -39,17 +39,7 @@ require_once '../model/registrationModel.php';
 
         public function addUserFunc($firstName, $lastName): void {
             try {
-                // // need to check if array exits before adding to it 
-                // if(isset($_SESSION['userArray'])){
-                //     $_SESSION['userArray'][] = [
-                //         'FirstName' => $firstName,
-                //         'LastName' => $lastName
-                //     ];
-
-                //     echo count($_SESSION['userArray']);
-                // }
-
-                // Call the createRegistration method of the $regsModel object to create a new registration record in the database
+                // Call the createRegistration method of the $regsModel object from registrationModel.php to create a new registration record in the database
                 if($this->regsModel->createRegistration($firstName, $lastName)) {
                     echo "User is added successfully.";
                 } else {

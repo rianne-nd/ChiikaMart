@@ -2,7 +2,7 @@
 
 class Database {
     private $host = "localhost";
-    private $db_name = "projectappdev_db";
+    private $db_name = "chiikamart_db";
     private $username = "root";
     private $password = "";
 

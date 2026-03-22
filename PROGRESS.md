@@ -30,3 +30,17 @@ This file tracks the ongoing evolution of the ChiikaMart (1811 User Management) 
 * Update the `$usermanagement->getUser()` function to `SELECT` data from the database so the frontend DataTables table loads actual remote database records instead of just the session cache.
 * Migrate the Update (`UPDATE` SQL) and Delete (`DELETE` SQL) functionality from the session array to the database via `registrationModel.php`.
 * Convert the login authorization to verify credentials via a database query.
+
+---
+
+## 📅 March 22, 2026 - Phase 1 & 2: Database Migration (Midterms)
+* **Database Setup (Phase 1):** Verified `chiikamart_db` schema integration and updated our `model/database.php` from the legacy `projectappdev_db`.
+* **Flowchart Sanitation:** Cleaned up Markdown parsing characters in `RegistrationPage_Flowchart.md` (escaped parenthesis, colons) so external flowchart generators won't break.
+* **Master Plan Generated:** Created `CHIIKAMART_PLAN.md` mapping out our exact 5-Phase strategy to introduce password hashing, role-based dashboards, and complete DB connectivity. 
+* **Updated Model Models (Phase 2):** 
+    * Refactored `registrationModel.php` completely.
+    * Replaced the simple `$firstName` and `$lastName` bindings with a robust, secure parameter list: `$firstName`, `$email`, `$password`, and an automatic `$roleID` initialized at `2` (Customer level).
+    * Updated the `INSERT` SQL statement to target the new `users` table instead of `tbl_registrations`.
+    * Implemented strict database timestamps passing bindings for `:createdAt` and `:updatedAt`.
+    * Added the `getUserbyEmail` function using `PDO::FETCH_ASSOC`, allowing us to successfully retrieve all columns for a user during the future login process.
+    * Cleaned up legacy comments pulling `$lastName` to resolve fatal PHP compilation errors.
