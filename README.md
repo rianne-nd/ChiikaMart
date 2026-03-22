@@ -1,3 +1,4 @@
+
 # 1811 - User Management System
 
 Welcome to the **1811 - User Management Project**! This is an educational PHP application designed to teach beginner developers about fundamental web development concepts. 
@@ -44,7 +45,7 @@ Before diving into the files, it's highly important to understand how the code i
 
 ---
 
-## 📄 File Descriptions & Detailed Walkthroughs
+## 📄 File Descriptions & Detailed 
 
 ### 1. `bl/UserManagement.php` (The Brain)
 
@@ -61,9 +62,9 @@ This file contains the core logic inside the `UserManagement` class. Think of it
 
 ---
 
-### 2. `model/database.php` (The MySQL Connection)
+### 🔗 2. `model/database.php` (The MySQL Connection)
 
-This file connects our PHP code to the MySQL Database program (typically running via XAMPP). We use **PDO (PHP Data Objects)** because it is highly secure and prevents hackers from bypassing inputs (SQL Injection).
+This file connects our PHP code to the MySQL Database program (typically running via XAMPP). We use **PDO (PHP Data Objects)**.
 
 | Function | Parameters | Description / How it works |
 |---|---|---|
@@ -71,20 +72,20 @@ This file connects our PHP code to the MySQL Database program (typically running
 
 ---
 
-### 3. `model/registrationModel.php` (Database Queries)
+### 🗃️✍️ 3. `model/registrationModel.php` (Database Queries)
 
-This file handles the exact native SQL text commands that talk to the actual database structure.
+This file handles the exact native SQL queries and database manipulation that talk to the actual database structure.
 
 | Function | Parameters | Description / How it works |
 |---|---|---|
 | `__construct()` | `$db` | It catches the live database connection (from `database.php`) and saves it inside the class so the other functions can use it to talk to MySQL. |
-| `createRegistration()` | `$firstName, $lastName` | Prepares a secure SQL statement: `INSERT INTO tbl_registration...`. It safely "binds" `$firstName` and `$lastName` to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
+| `createRegistration()` | `$firstName, $lastName` | Prepares and execute an SQL statement: `INSERT INTO tbl_registration...`. It "binds" `$firstName` and `$lastName` to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
 
 ---
 
-### 4. `controllers/UserController.php` (The Traffic Cop)
-
-Imagine you have 4 different buttons clicking at once. This file acts as the router. It listens strictly to **POST requests** (data sent safely behind the scenes). 
+### 🚦⛕ 4. `controllers/UserController.php` (The Traffic Cop)
+Acts as the request router. 
+Starts the session, instantiates `UserManagement`, it listens strictly to **POST requests** (data sent safely behind the scenes) and delegates incoming POST requests to the appropriate business logic method based on which POST keys are present.. 
 
 | POST Keys Detected | Action It Triggers in Business Logic |
 |---|---|
@@ -95,17 +96,17 @@ Imagine you have 4 different buttons clicking at once. This file acts as the rou
 
 ---
 
-### 5. `scripts/Service.js` (The Client-Side Magic)
+### 🚪⚠️ 5. `scripts/Service.js` (The Client-Side Magic)
 
 This JavaScript file is loaded on the user's browser. It uses **jQuery AJAX** to magically talk to `UserController.php` *without* making the browser page refresh or flicker! It also triggers **SweetAlert2** popups for a beautiful user experience. 
 
 | Function | Parameters | Description / How it works |
 |---|---|---|
-| `addFunc()` | — | Reads the text typed into the First Name & Last Name boxes. Behind the scenes, it sends a secret POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
-| `updateFunc()` | `userID` | Grabs the user's ID, sends the new name inputs to the Controller, pops up an alert, and refreshes the table. |
-| `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the ID to the Controller, alerts success, and refreshes. |
+| `addFunc()` | — | Reads `txtFirstname` and `txtLastname` input values. Behind the scenes, it sends a secret POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
+| `updateFunc()` | `userID` |   Reads  `txtFirstname`  and  `txtLastname`  input values, it grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
+| `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the given `userID` to the Controller, alerts success, and refreshes. |
 | `redirectFunc()` | `redirectID` | Simple navigation. `1` takes you to Login, `2` to Dashboard, and `3` to Registration. |
-| `loginFunc()` | — | Captures typed login names and asks the Controller if they are valid. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
+| `loginFunc()` | — | Captures `login_fName` and `login_lName` input values and asks the Controller if they are valid. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
 
 ---
 
@@ -127,7 +128,7 @@ What external tools are we using to make this project look and feel modern?
 |---|---|---|
 | [jQuery](https://jquery.com/) | 3.7.1 | A Javascript tool that makes writing AJAX (background server requests) and finding HTML elements incredibly easy. |
 | [DataTables](https://datatables.net/) | 2.3.7 | A Javascript plugin attached to jQuery used in `RegistrationPage.php` to magically add a search bar, page numbers, and column sorting to our user table. |
-| [SweetAlert2](https://sweetalert2.github.io/) | 11 | Replaces ugly, default browser alert warnings with gorgeous, customized popup modals. |
+| [SweetAlert2](https://sweetalert2.github.io/) | 11 | Success/error dialog modals |
 | [Materialize CSS](https://materializecss.com/) | 1.0.0 | A CSS framework by Google. It gives us beautiful buttons, grids, and input fields without writing hundreds of lines of our own CSS. |
 
 ---
