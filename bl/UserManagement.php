@@ -21,8 +21,6 @@ require_once '../model/registrationModel.php';
                             
 
         private $regsModel;
-
-
         // public is used to allow access to the class and its methods from outside the class, such as from controllers or views. It allows other parts of the application to create instances of the UserManagement class and call its methods to manage user data stored in PHP sessions.
         // private would restrict access to the class and its methods, making it inaccessible from outside the class. This would prevent other parts of the application from using the UserManagement class to manage user data, which is not desirable in this case since we want to allow interaction with the class from controllers and views.
 
@@ -37,10 +35,11 @@ require_once '../model/registrationModel.php';
             $this->regsModel = new Registration($db); // class from registrationModel.php, used to handle registration-related operations such as creating new registrations in the database. By passing the database connection ($db) to the constructor of the Registration class, we can ensure that the UserManagement class has access to the necessary database connection for performing registration operations when needed.
         }
 
-        public function addUserFunc($firstName, $lastName): void {
+        public function addUserFunc($firstName, $email, $password): void {
             try {
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                 // Call the createRegistration method of the $regsModel object from registrationModel.php to create a new registration record in the database
-                if($this->regsModel->createRegistration($firstName, $lastName)) {
+                if($this->regsModel->createRegistration($firstName, $email, $hashedPassword)) {
                     echo "User is added successfully.";
                 } else {
                     // If the registration creation fails, return an error response
@@ -74,18 +73,18 @@ require_once '../model/registrationModel.php';
             return $_SESSION['userArray']; // return the current list of users stored in the session variable as an array. This method allows other parts of the application, such as controllers or views, to retrieve the user data for display or further processing. 
         }
 
-        public function loginUserFunc($firstName, $lastName) {
-            $fnameColumn = array_column($_SESSION['userArray'], 'FirstName'); // get array of first names
-            $lnameColumn = array_column($_SESSION['userArray'], 'LastName'); // get array of last names
+        public function loginUserFunc($email, $password) {
+            // Fetch the user from the database using the email
+            $user = $this->regsModel->getUserbyEmail($email);
 
-            // $firstName and $lastName are recieved from loginUserFunc in UserController.php, it is the needle we are looking for inside the haystack collumn $fnameColumn and $lnameColumn. If both the first name and last name are found in their respective columns, we return "true". If either the first name or last name is not found, we return "false". This allows us to check if a user's first and last name exist in the session array for login purposes.
-            $fNameSearch = array_search($firstName, $fnameColumn); // search for first name in array
-            $lNameSearch = array_search($lastName, $lnameColumn); // search for last name in array
-
-            // Check if both the first name and last name are found in their respective columns. If both are found, return "true". If either is not found, return "false".
-            if ($fNameSearch !== false && $lNameSearch !== false) {
+            // Check if the user exists and if the provided password matches the hashed password
+            
+            if ($user && password_verify($password, $user['password'])) {
+                // Set the session variables for user tracking and authorization
+                $_SESSION['userID'] = $user['userID'];
+                $_SESSION['roleID'] = $user['roleID'];
                 echo "true";
-            } else{
+            } else {
                 echo "false";
             }
         }

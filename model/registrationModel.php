@@ -2,7 +2,7 @@
     class Registration{
         //To allow connection to the database every time we create an instance of the Registration class, we can use the constructor method to establish a connection to the database. This way, we can ensure that the database connection is available for any methods within the Registration class that need to interact with the database, such as adding new users or retrieving user information. By passing the database connection as a parameter to the constructor, we can also make the Registration class more flexible and reusable, allowing us to easily switch to a different database connection if needed without having to modify the internal logic of the class.
         //To enable us to access the connection inside the constructor, we can declare a private variable within the Registration class to hold the database connection. This variable can be assigned the value of the database connection passed as a parameter to the constructor. By doing this, we can ensure that the database connection is stored as a property of the Registration class and can be accessed by any methods within the class that require it. This approach allows us to maintain a clean and organized structure for our code while also providing easy access to the database connection whenever needed.
-        private $conn;
+        private $conn; // conn = connection. 
         public function __construct($db)
         {
             $this->conn = $db; // Assign the database connection to the private variable $conn for use within the class methods.

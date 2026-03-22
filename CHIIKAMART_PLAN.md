@@ -29,21 +29,21 @@ This document outlines the granular, step-by-step technical implementation plan 
 
 ---
 
-## [ ] Phase 3: Update Business Logic & Controllers (The Brain)
+## [x] Phase 3: Update Business Logic & Controllers (The Brain)
 **Goal:** Add secure password hashing and restructure payload parsing.
-- [ ] **Step 1:** Open `1811/bl/UserManagement.php` and remove all legacy `$_SESSION['userArray']` array-pushing code.
-- [ ] **Step 2:** Refactor `addUserFunc()`.
+- [x] **Step 1:** Open `1811/bl/UserManagement.php` and remove all legacy `$_SESSION['userArray']` array-pushing code.
+- [x] **Step 2:** Refactor `addUserFunc()`.
   - **Variables expected from POST:** `$_POST['firstName']`, `$_POST['email']`, `$_POST['password']`.
   - **Logic to Add:** 
     - `$hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);`
   - **Method to Call:** `$this->regsModel->createRegistration($firstName, $email, $hashedPassword)`
-- [ ] **Step 3:** Refactor `loginUserFunc()`.
+- [x] **Step 3:** Refactor `loginUserFunc()`.
   - **Variables expected from POST:** `$_POST['login_email']`, `$_POST['login_password']`.
   - **Logic to Add:** 
     - Fetch DB record: `$user = $this->regsModel->getUserByEmail($email);`
     - Verify Hash: `if ($user && password_verify($req_password, $user['password']))`
   - **Session state to set:** `$_SESSION['userID'] = $user['userID'];`, `$_SESSION['roleID'] = $user['roleID'];`
-- [ ] **Step 4:** Open `1811/controllers/UserController.php`.
+- [x] **Step 4:** Open `1811/controllers/UserController.php`.
   - **Router Updates:** 
     - Change `isset($_POST['fname'], $_POST['lName'])` to `isset($_POST['firstName'], $_POST['email'], $_POST['password'])` for `#route_add`.
     - Change `isset($_POST['lFName'], $_POST['lLName'])` to `isset($_POST['login_email'], $_POST['login_password'])` for `#route_login`.
