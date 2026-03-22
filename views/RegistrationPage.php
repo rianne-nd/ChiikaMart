@@ -50,20 +50,20 @@
                     <!-- First Name input -->
                     <div class="input-field col s12 m12 l12">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="txtFirstname" type="text" class="validate">
-                        <label for="txtFirstname">First Name</label>
+                        <input id="txtRegisterFirstname" type="text" class="validate">
+                        <label for="txtRegisterFirstname">First Name</label>
                     </div>
                     <!-- Email input -->
                         <div class="input-field col s6 m6 l6">
                         <i class="material-icons prefix">email</i>
-                        <input id="txtEmail" type="email" class="validate">
-                        <label for="txtEmail">Email</label>
+                        <input id="txtRegisterEmail" type="email" class="validate">
+                        <label for="txtRegisterEmail">Email</label>
                     </div>
                     <!-- Password input -->
                     <div class="input-field col s6 m6 l6">
                         <i class="material-icons prefix">lock</i>
-                        <input id="txtPassword" type="password" class="validate">
-                        <label for="txtPassword">Password</label>
+                        <input id="txtRegisterPassword" type="password" class="validate">
+                        <label for="txtRegisterPassword">Password</label>
                     </div>
                     <!-- Add Button -->
                     <div class = "col s12 m12 l12">
@@ -87,15 +87,15 @@
                         </thead>
                         <tbody>
                         <?php if(!empty($users)) : ?>
-                            <?php foreach($users as $index => $user) : ?>
+                            <?php foreach($users as $user) : ?>
                                 <tr>
-                                    <td><?= $index + 1 ?></td>
-                                    <td><?=  $user['FirstName'] ?></td>
-                                    <td><?=  $user['Email'] ?></td>
-                                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?= $user['Password'] ?>"><?=  $user['Password'] ?></td>
+                                    <td><?= $user['userID'] ?></td>
+                                    <td><?=  $user['firstName'] ?></td>
+                                    <td><?=  $user['email'] ?></td>
+                                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?= $user['password'] ?>"><?=  $user['password'] ?></td>
                                     <td>
-                                        <a class="waves-effect waves-light btn #3f51b5 indigo" style="width: 100%; margin: 2%;" onclick="updateFunc(<?= $index ?>)"><i class="material-icons right">autorenew</i>UPDATE</a>
-                                        <a class="waves-effect waves-light btn #d32f2f red darken-2" style="width: 100%; margin: 2%;" onclick="deleteFunc(<?= $index ?>)"><i class="material-icons right">remove_circle</i>DELETE</a>
+                                        <a class="waves-effect waves-light btn #3f51b5 indigo" style="width: 100%; margin: 2%;" onclick="updateFunc(<?= $user['userID'] ?>)"><i class="material-icons right">autorenew</i>UPDATE</a>
+                                        <a class="waves-effect waves-light btn #d32f2f red darken-2" style="width: 100%; margin: 2%;" onclick="deleteFunc(<?= $user['userID'] ?>)"><i class="material-icons right">remove_circle</i>DELETE</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

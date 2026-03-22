@@ -24,14 +24,14 @@
     <!-- Email -->
     <div class="input-field col s6 m6 l6">
         <i class="material-icons prefix">email</i>
-        <input id="login_email" type="email" class="validate">
-        <label for="login_email">Email</label>
+        <input id="txtLoginEmail" type="email" class="validate">
+        <label for="txtLoginEmail">Email</label>
     </div>
     <!-- Password -->
     <div class="input-field col s6 m6 l6">
         <i class="material-icons prefix">lock</i>
-        <input id="login_password" type="password" class="validate">
-        <label for="login_password">Password</label>
+        <input id="txtLoginPassword" type="password" class="validate">
+        <label for="txtLoginPassword">Password</label>
     </div>
     <!-- Login Button -->
     <div class = "col s12 m12 l12">

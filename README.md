@@ -55,9 +55,9 @@ This file contains the core logic inside the `UserManagement` class. Think of it
 |---|---|---|
 | `__construct()` | — | The "Setup" function. When this class is called, it automatically establishes the database connection using the `Database` class and opens up the `Registration` model so we can run SQL queries. |
 | `addUserFunc()` | `$firstName`, `$email`, `$password` | Hashes the password securely, then passes the details to the `createRegistration` method. This saves the user to the `users` table safely in the database. |
-| `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | *Legacy:* Currently updates the `FirstName` and `LastName` of the user inside the temporary PHP `$_SESSION` array. |
-| `deleteUserFunc()` | `$userID` | *Legacy:* Removes the targeted user from the `$_SESSION` array by using PHP's `unset()` function, then re-indexes the array cleanly. |
-| `getUser()` | — | *Legacy:* Fetches and returns all currently tracked users from `$_SESSION['userArray']`. If there's no session, it safely returns an empty array. |
+| `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | *Legacy:* Currently updates the `FirstName` and `LastName` of the user inside the temporary PHP `$_SESSION` array. *(Will be refactored to use `$email`)* |
+| `deleteUserFunc()` | `$userID` | *Legacy:* Removes the targeted user from the `$_SESSION` array by using PHP's `unset()` function, then re-indexes the array cleanly. *(Will be refactored to delete from Database via PDO)* |
+| `getUser()` | — | Fetches and returns all currently tracked users natively from the `users` database table using the `getAllUsers()` model. |
 | `loginUserFunc()` | `$email`, `$password` | Searches the database for the given email, and utilizes `password_verify()` to confirm the string matches the hash stored in the DB. Replies with `"true"` if the user securely authenticates. |
 
 ---
@@ -81,6 +81,7 @@ This file handles the exact native SQL queries and database manipulation that ta
 | `__construct()` | `$db` | It catches the live database connection (from `database.php`) and saves it inside the class so the other functions can use it to talk to MySQL. |
 | `createRegistration()` | `$firstName, $email, $password, $roleID` | Prepares a secure SQL statement: `INSERT INTO users...`. It safely "binds" the user's details and role to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
 | `getUserbyEmail()` | `$email` | Prepares a secure `SELECT * FROM users` statement. It executes the search and fetches the result as an associative array using `PDO::FETCH_ASSOC`. This is designed to pull user credentials out of the database for secure login comparisons. |
+| `getAllUsers()` | — | Resolves legacy session logic by securely preparing a `SELECT * FROM users` statement, returning every registered user dynamically via `PDO::FETCH_ASSOC` to populate the DataTables view. |
 
 ---
 
@@ -91,9 +92,9 @@ Starts the session, instantiates `UserManagement`, it listens strictly to **POST
 | POST Keys Detected | Action It Triggers in Business Logic |
 |---|---|
 | If `firstName`, `email`, and `password` are received | Triggers `addUserFunc()` → Adds user to DB safely hashed |
-| If `uFName`, `uLName`, and `uID` are received | Triggers `updateUserFunc()` → Modifies user |
+| If `uFName`, `uLName`, and `uID` are received | Triggers `updateUserFunc()` → Modifies user *(Pending update to `uFirstName` & `uEmail`)* |
 | If `dID` is received | Triggers `deleteUserFunc()` → Erases user |
-| If `login_email` and `login_password` are received | Triggers `loginUserFunc()` → Tries to securely log in |
+| If `lEmail` and `lPassword` are received | Triggers `loginUserFunc()` → Tries to securely log in |
 
 ---
 
@@ -107,7 +108,7 @@ This JavaScript file is loaded on the user's browser. It uses **jQuery AJAX** to
 | `updateFunc()` | `userID` |   Reads  `txtFirstname`  and  `txtLastname`  input values, it grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
 | `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the given `userID` to the Controller, alerts success, and refreshes. |
 | `redirectFunc()` | `redirectID` | Simple navigation. `1` takes you to Login, `2` to Dashboard, and `3` to Registration. |
-| `loginFunc()` | — | Captures `login_email` and `login_password` input values and asks the Controller if they are valid. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
+| `loginFunc()` | — | Captures `login_email` and `login_password` input values and asks the Controller if they are valid by passing `lEmail` and `lPassword`. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
 
 ---
 

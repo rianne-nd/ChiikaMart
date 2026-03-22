@@ -46,7 +46,7 @@ This document outlines the granular, step-by-step technical implementation plan 
 - [x] **Step 4:** Open `1811/controllers/UserController.php`.
   - **Router Updates:** 
     - Change `isset($_POST['fname'], $_POST['lName'])` to `isset($_POST['firstName'], $_POST['email'], $_POST['password'])` for `#route_add`.
-    - Change `isset($_POST['lFName'], $_POST['lLName'])` to `isset($_POST['login_email'], $_POST['login_password'])` for `#route_login`.
+    - Change `isset($_POST['lFName'], $_POST['lLName'])` to `isset($_POST['lEmail'], $_POST['lPassword'])` for `#route_login`.
 
 ---
 
@@ -54,18 +54,18 @@ This document outlines the granular, step-by-step technical implementation plan 
 **Goal:** Adjust HTML forms and AJAX to collect user credentials instead of names.
 - [x] **Step 1:** Open `1811/views/RegistrationPage.php`.
   - **HTML to Update:** 
-    - Change First Name id to `id="txtFirstName"`.
+    - Change First Name id to `id="txtFirstname"`.
     - Change Last Name input to **Email**: `id="txtEmail"` (type="email").
     - Add **Password** input: `id="txtPassword"` (type="password").
 - [x] **Step 2:** Open `1811/views/LoginPage.php`.
   - **HTML to Update:** Change login inputs to `id="login_email"` and `id="login_password"`.
 - [x] **Step 3:** Open `1811/scripts/Service.js`.
   - **AJAX Add to Update (`addFunc`):**
-    - `let fName = $("#txtFirstName").val();`, `let email = $("#txtEmail").val();`, `let password = $("#txtPassword").val();`
-    - `data: { firstName: fName, email: email, password: password }`
+    - `var firstName = document.getElementById("txtFirstname").value;`, `var email = document.getElementById("txtEmail").value;`, `var password = document.getElementById("txtPassword").value;`
+    - `data: { firstName: firstName, email: email, password: password }`
   - **AJAX Login to Update (`loginFunc`):**
-    - `let email = $('#login_email').val();`, `let password = $('#login_password').val();`
-    - `data: { login_email: email, login_password: password }`
+    - `var loginEmail = document.getElementById("login_email").value;`, `var loginPassword = document.getElementById("login_password").value;`
+    - `data: { lEmail: loginEmail, lPassword: loginPassword }`
 
 ---
 

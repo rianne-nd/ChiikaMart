@@ -2,16 +2,16 @@
 // This file contains the JavaScript functions that handle AJAX requests for user management operations such as adding, updating, deleting, and logging in users. It also includes a function for redirecting to different pages based on user actions.
 
 function addFunc() {
-    var firstName = document.getElementById("txtFirstname").value;
-    var email = document.getElementById("txtEmail").value;
-    var password = document.getElementById("txtPassword").value;
+    var registerFirstName = document.getElementById("txtRegisterFirstname").value;
+    var registerEmail = document.getElementById("txtRegisterEmail").value;
+    var registerPassword = document.getElementById("txtRegisterPassword").value;
     $.ajax({
         url: '../controllers/UserController.php',
         type: 'POST',
         data: {
-            firstName: firstName,
-            email: email,
-            password: password
+            rFName: registerFirstName,
+            rEmail: registerEmail,
+            rPassword: registerPassword
         },
         success: function(returnedData){
         
@@ -34,14 +34,16 @@ function addFunc() {
 }
 
 function updateFunc(userID) {
-    var firstName = document.getElementById("txtFirstname").value;
-    var lastName = document.getElementById("txtLastname").value;
+    var firstName = document.getElementById("txtRegisterFirstname").value;
+    var email = document.getElementById("txtRegisterEmail").value;
+    var password = document.getElementById("txtRegisterPassword").value;
     $.ajax({
         url: '../controllers/UserController.php',
         type: 'POST',
         data: { 
             uFName: firstName,
-            uLName: lastName,
+            uEmail: email,
+            uPassword: password,
             uID: userID                
         },
         success: function(returnedData){
@@ -93,8 +95,8 @@ function deleteFunc(userID) {
 }
 
 function changeFirstName() {
-    var firstNameValue = document.getElementById("txtFirstname").value;
-    var LastnameValue = document.getElementById("txtLastname").value;
+    var firstNameValue = document.getElementById("txtRegisterFirstname").value;
+    var LastnameValue = document.getElementById("txtRegisterLastname").value;
     $.ajax({
         url: '../controllers/UserController.php', 
         type: 'POST',
@@ -128,8 +130,8 @@ function redirectFunc(redirectID) {
 }
 
 function loginFunc() {
-    var loginEmail = document.getElementById("login_email").value;
-    var loginPassword = document.getElementById("login_password").value;
+    var loginEmail = document.getElementById("txtLoginEmail").value;
+    var loginPassword = document.getElementById("txtLoginPassword").value;
     $.ajax({
         url: '../controllers/UserController.php',
         type: 'POST',

@@ -70,7 +70,8 @@ require_once '../model/registrationModel.php';
             $_SESSION['userArray'] = array_values($_SESSION['userArray']);  // reindex array 
         }  
         public function getUser() {
-            return $_SESSION['userArray']; // return the current list of users stored in the session variable as an array. This method allows other parts of the application, such as controllers or views, to retrieve the user data for display or further processing. 
+            // Fetch and return the list of users directly from the database via the model
+            return $this->regsModel->getAllUsers();
         }
 
         public function loginUserFunc($email, $password) {
