@@ -28,8 +28,7 @@ require_once '../model/registrationModel.php';
 
         // public because it will be used later in the controllers
         // When a new instance of the UserManagement class is created, the constructor checks if the session variable 'userArray' exists. If it does not exist, it initializes 'userArray' as an empty array to hold user data. This ensures that the session variable is always available for storing user information when methods of the UserManagement class are called.
-        public function __construct()
-        {
+        public function __construct(){
             $database = new Database(); // class from database.php, used to establish a connection to the database. 
             $db = $database->connect(); // function from database.php, used to establish a connection to the database and return the connection object. This allows the UserManagement class to interact 
         
@@ -67,21 +66,26 @@ require_once '../model/registrationModel.php';
         }
 
         public function updateUserFunc($firstName, $lastName, $userID): void { 
-            if(isset($_SESSION['userArray'][$userID])) {
-                $_SESSION['userArray'][$userID]['FirstName'] = $firstName;
-                    //$_SESSION['userArray'] is an array of users
-                    //['userID'] is the specific user we want to update
-                    //['FirstName'] is the field we want to update
-                $_SESSION['userArray'][$userID]['LastName'] = $lastName;
+            if($this ->regsModel->updateRegistration($firstName, $lastName, $userID)) {
+                echo "User is updated successfully.";
+            } else {
+                // If the registration update fails, return an error response
+                echo "Error is encountered while updating the user.";
             }
         }
         
         public function deleteUserFunc($userID): void {
-            unset($_SESSION['userArray'][$userID]); // remove user at specified index
-            $_SESSION['userArray'] = array_values($_SESSION['userArray']);  // reindex array 
+            if($this ->regsModel->deleteRegistration($userID)) {
+                echo "User is deleted successfully.";
+            } else {
+                // If the registration update fails, return an error response
+                echo "Error is encountered while deleting the user.";
+            }
         }  
         public function getUser() {
-            return $_SESSION['userArray']; // return the current list of users stored in the session variable as an array. This method allows other parts of the application, such as controllers or views, to retrieve the user data for display or further processing. 
+            // return $_SESSION['userArray']; // return the current list of users stored in the session variable as an array. This method allows other parts of the application, such as controllers or views, to retrieve the user data for display or further processing. 
+            $response = $this->regsModel->readRegistration(); // Call the readRegistration method of the $regsModel object to retrieve registration records from the database. The returned value is still an object
+            return $response->fetchAll(PDO::FETCH_ASSOC); // Fetch all the registration records as an associative array and return it. This allows the calling code to access the user data in a structured format for display or further processing.
         }
 
         public function loginUserFunc($firstName, $lastName) {

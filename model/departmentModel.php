@@ -1,7 +1,7 @@
-<?php
-    class Registration{
-        //To allow connection to the database every time we create an instance of the Registration class, we can use the constructor method to establish a connection to the database. This way, we can ensure that the database connection is available for any methods within the Registration class that need to interact with the database, such as adding new users or retrieving user information. By passing the database connection as a parameter to the constructor, we can also make the Registration class more flexible and reusable, allowing us to easily switch to a different database connection if needed without having to modify the internal logic of the class.
-        //To enable us to access the connection inside the constructor, we can declare a private variable within the Registration class to hold the database connection. This variable can be assigned the value of the database connection passed as a parameter to the constructor. By doing this, we can ensure that the database connection is stored as a property of the Registration class and can be accessed by any methods within the class that require it. This approach allows us to maintain a clean and organized structure for our code while also providing easy access to the database connection whenever needed.
+ <?php
+//  Rename departmentModel.php later for whatever use the dropdown table will be used for. This file is purely to make the dropdown dynamic 
+
+    class Department {
         private $conn;
         public function __construct($db)
         {
@@ -39,15 +39,10 @@
             }
         }
 
-        public function readRegistration() {
+        public function readDepartment() {
             try {
-                // 1. Create the SQL query to select all registration records from the database. This query retrieves all entries from the tbl_registration table, allowing us to access the complete list of registrations stored in the database.
-                $query = "SELECT * FROM tbl_registrations";
-
-                // 2. Prepare the SQL query using the database connection. This step allows us to execute the query and retrieve the results later on. By preparing the statement, we can also optimize performance and enhance security when interacting with the database.
+                $query = "SELECT * FROM tbl_departments";
                 $response = $this->conn->prepare($query);
-
-                // 3. Execute the prepared statement to fetch all registration records from the database. This step runs the SQL query and retrieves the data, which can then be processed or returned as needed. If successful, this will provide access to all registration entries stored in the tbl_registration table.
                 $response->execute();
                 return $response;
             } catch (PDOException $ex) {
@@ -83,5 +78,7 @@
             $response->execute();
             return $response;
         }
+
+
     }
 ?>

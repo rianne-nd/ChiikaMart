@@ -1,10 +1,15 @@
 <?php
     session_start();
-    require_once '../bl/userManagement.php';
+    require_once '../bl/UserManagement.php';
+    require_once '../bl/DepartmentManagement.php';
 
     $usermanagement = new UserManagement();
+    $departmentmanagement = new DepartmentManagement();
+
     // users contain the current session array of users, which is retrieved by calling the getUser method of the UserManagement class. This allows the registration page to display the list of registered users and their information, such as first name and last name, in a table format on the page. The $users variable is used in the HTML part of the code to loop through the user data and generate the table rows dynamically based on the current session data.
     $users = $usermanagement->getUser();
+    // departments contain the list of departments, which is retrieved by calling the getDepartment method of the DepartmentManagement class. This allows the registration page to display the list of available departments for user selection.
+    $depts = $departmentmanagement->getDepartment();
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +62,17 @@
                         <input id="txtLastname" type="text" class="validate">
                         <label for="txtLastname">Last Name</label>
                     </div>
+                    <div class="input-field col s12">
+                        
+                        <select>
+                            <option value="" disabled selected>Choose your option</option>
+                            <?php foreach($depts as $dept) : ?>
+                                <option value="<?= $dept['departmentID'] ?>"><?= $dept['departmentDescription'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <label>Materialize Select</label>
+
+                    </div>      
                     <div class = "col s12 m12 l12">
                         <a class="waves-effect waves-light btn-large #0d47a1 blue darken-4" style="width: 100%;" onclick="addFunc()">
                         <i class="material-icons right">add_circle</i>
@@ -75,16 +91,17 @@
                                 <th>Action</th> 
                             </tr>
                         </thead>
+
                         <tbody>
                         <?php if(!empty($users)) : ?>
                             <?php foreach($users as $index => $user) : ?>
                                 <tr>
                                     <td><?= $index + 1 ?></td>
-                                    <td><?=  $user['FirstName'] ?></td>
-                                    <td><?=  $user['LastName'] ?></td>
+                                    <td><?=  $user['firstName'] ?></td>
+                                    <td><?=  $user['lastName'] ?></td>
                                     <td>
-                                        <a class="waves-effect waves-light btn #3f51b5 indigo" style="width: 100%; margin: 2%;" onclick="updateFunc(<?= $index ?>)"><i class="material-icons right">autorenew</i>UPDATE</a>
-                                        <a class="waves-effect waves-light btn #d32f2f red darken-2" style="width: 100%; margin: 2%;" onclick="deleteFunc(<?= $index ?>)"><i class="material-icons right">remove_circle</i>DELETE</a>
+                                        <a class="waves-effect waves-light btn #3f51b5 indigo" style="width: 100%; margin: 2%;" onclick="updateFunc(<?= $user['registrationID'] ?>)"><i class="material-icons right">autorenew</i>UPDATE</a>
+                                        <a class="waves-effect waves-light btn #d32f2f red darken-2" style="width: 100%; margin: 2%;" onclick="deleteFunc(<?= $user['registrationID'] ?>)"><i class="material-icons right">remove_circle</i>DELETE</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -104,9 +121,3 @@
 </body>
 
 </html>
-
-<script>
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    });
-</script>
