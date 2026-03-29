@@ -43,13 +43,13 @@
         public function getUserbyEmail($email){
             try {
                 // 1. Create the SQL query
-                $query = "SELECT * FROM users WHERE email = :email";
+                $query = "SELECT * FROM users WHERE email = :email"; // :email = $email 
                 
                 // 2. Prepare the SQL query
                 $response = $this->conn->prepare($query);
                 
                 // 3. Bind the email parameter
-                $response->bindParam(':email', $email);
+                $response->bindParam(':email', $email); // 
                 
                 // 4. Execute the query
                 $response->execute();

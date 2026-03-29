@@ -148,11 +148,11 @@ function loginFunc() {
                     confirmButtonText: "OK"
                 });
                 
-                // Display the logged-in user's email
-                var userInfoDiv = document.getElementById("userInfo");
-                if (userInfoDiv) {
-                    userInfoDiv.innerHTML = "<h4>User Info</h4><p>Email: " + loginEmail + "</p>";
-                }
+                // // Display the logged-in user's email
+                // var userInfoDiv = document.getElementById("userInfo");
+                // if (userInfoDiv) {
+                //     userInfoDiv.innerHTML = "<h4>User Info</h4><p>Email: " + loginEmail + "</p>";
+                // }
 
                 redirectFunc(3); // Redirect to dashboard after successful login
             } else {
