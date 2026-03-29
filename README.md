@@ -9,6 +9,7 @@ A PHP session-based user management application following an MVC-style architect
 ```
 ChiikaMart/
 ├── bl/
+│   ├── DepartmentManagement.php # Business logic - department operations
 │   └── UserManagement.php       # Business logic - session-based user operations
 ├── controllers/
 │   └── UserController.php       # Request router - handles all POST requests
@@ -16,6 +17,7 @@ ChiikaMart/
 ├── images/                      # Image assets (empty)
 ├── model/                       # Data models and database configuration
 │   ├── database.php             # PDO database connection setup
+│   ├── departmentModel.php      # Handles department SQL queries (dynamic dropdowns)
 │   └── registrationModel.php    # Handles registration SQL queries
 ├── scripts/
 │   └── Service.js               # Client-side AJAX service functions
@@ -39,15 +41,21 @@ Business logic layer. Contains the `UserManagement` class which manages users. R
 | `__construct()` | — | Establishes the database connection using the `Database` class and initializes the `Registration` model. |
 | `addUserFunc()` | `$firstName`, `$lastName` | Calls the `createRegistration` method of the registration model to insert a new user into the database. |
 | `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | Updates the `FirstName` and `LastName` of the user at index `$userID` in the session array. |
-| `deleteUserFunc()` | `$userID` | Removes the user at index `$userID` using `unset()`, then re-indexes the array with `array_values()`. |
+| `deleteUserFunc()` | `$userID` | Removes the user at index `$userID` using `unset()`, then re-indexes the array with `array_values()`. Updated to securely delete records from the database. |
 | `getUser()` | — | Returns the full `$_SESSION['userArray']`, or an empty array if the session variable is not set. |
 | `loginUserFunc()` | `$firstName`, `$lastName` | Searches the session array for a matching first and last name using `array_search()`. Echoes `"true"` if found, otherwise `"false"`. |
 
 ---
 
+### `bl/DepartmentManagement.php`
+
+Business logic layer. Contains the `DepartmentManagement` class to handle department-related operations. Acts as an intermediary between the UI (like dynamic dropdowns) and the `departmentModel`.
+
+---
+
 ### `model/database.php`
 
-Database connection layer. Connects the project to a MySQL database using PDO.
+Database connection layer. Connects the project to a MySQL database using PDO. **Note:** Foreign keys are not enforced directly in the database to avoid constraint issues; relationships (e.g., User to Department) are strategically managed within the backend PHP code.
 
 | Function | Parameters | Description |
 |---|---|---|
@@ -63,6 +71,19 @@ Data model responsible for SQL queries and database manipulation related to regi
 |---|---|---|
 | `__construct()` | `$db` | Stores the active database connection in a private variable. |
 | `createRegistration()` | `$firstName, $lastName` | Prepares and executes an `INSERT INTO tbl_registration` query to add a new user to the database using securely bound parameters. |
+| `updateRegistration()` | — | Prepares and executes an UPDATE query to modify existing user records. |
+| `deleteRegistration()` | — | Prepares and executes a DELETE query to remove user records. |
+
+---
+
+### `model/departmentModel.php`
+
+Data model solely responsible for making department dropdown variables dynamic.
+
+| Function | Parameters | Description |
+|---|---|---|
+| `__construct()` | `$db` | Stores the active database connection in a private variable. |
+| `readDepartment()` | — | Prepares and executes a query to retrieve the list of valid departments originally adapted from `readRegistration`. |
 
 ---
 
@@ -81,7 +102,7 @@ Acts as the request router. Starts the session, instantiates `UserManagement`, a
 
 ### `scripts/Service.js`
 
-Client-side layer. All functions communicate with `UserController.php` via jQuery AJAX POST requests and display SweetAlert2 confirmation dialogs on success.
+Client-side layer. All functions communicate with `UserController.php` via jQuery AJAX POST requests and display SweetAlert2 confirmation dialogs on success. Recently updated to read specific additions like the selected department from the dropdown form.
 
 | Function | Parameters | Description |
 |---|---|---|
@@ -98,10 +119,10 @@ Client-side layer. All functions communicate with `UserController.php` via jQuer
 
 The main user-facing page. Starts the session, fetches the current user list via `getUser()`, and renders:
 - A navigation bar (with a **LOGIN** redirect button).
-- A registration form (First Name / Last Name inputs + **ADD** button).
+- A registration form (First Name / Last Name inputs, dynamic **Department Dropdown** + **ADD** button).
 - A responsive Materialize table listing all registered users with **UPDATE** and **DELETE** action buttons per row.
 
-Depends on `Service.js` for all CRUD interactions.
+The newly implemented department dropdown connects dynamically to `departmentModel` and `DepartmentManagement` to fetch available departments. Depends on `Service.js` for all CRUD interactions.
 
 ---
 
