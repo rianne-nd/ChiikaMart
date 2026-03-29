@@ -1,4 +1,4 @@
-# 1811 - User Management System
+# ChiikaMart - User Management System
 
 A PHP session-based user management application following an MVC-style architecture. Users can be registered, updated, deleted, and authenticated using data stored in PHP sessions.
 
@@ -7,7 +7,7 @@ A PHP session-based user management application following an MVC-style architect
 ## Project Structure
 
 ```
-1811/
+ChiikaMart/
 ├── bl/
 │   └── UserManagement.php       # Business logic - session-based user operations
 ├── controllers/
