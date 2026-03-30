@@ -1,26 +1,78 @@
 function addFunc() {
     var firstName = document.getElementById("txtFirstname").value;
     var lastName = document.getElementById("txtLastname").value;
+    var suffix = document.getElementById("txtSuffix").value;
+    var birthday = document.getElementById("txtBirthday").value;
+    var phoneNumber = document.getElementById("txtPhoneNumber").value;
+
+    var email = document.getElementById("txtEmail").value;
+    var password = document.getElementById("txtPassword").value;
+    var confirmPassword = document.getElementById("txtConfirmPassword").value;
+
+    var street = document.getElementById("txtStreet").value;
+    var barangay = document.getElementById("txtBarangay").value;
+    var city = document.getElementById("txtCity").value;
+    var province = document.getElementById("txtProvince").value;
+    var zipCode = document.getElementById("txtZipCode").value;
+
+    if (firstName === "" || lastName === "" || phoneNumber === "" || email === "" || password === "" || street === "" || barangay === "" || city === "" || province === "" || zipCode === "") {
+            Swal.fire({
+                title: "Missing Information!",
+                text: "Please fill out all required fields.",
+                icon: "warning",
+                confirmButtonText: "OK"
+            });
+            return; 
+        }
+
+    if (password !== confirmPassword) {
+        Swal.fire({
+            title: "Error!",
+            text: "Passwords do not match. Please try again.",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+        return; 
+    }
+
+
     $.ajax({
         url: '../controllers/UserController.php', 
         type: 'POST',
         data: { 
             aFName: firstName,
-            aLName: lastName
+            aLName: lastName,
+            aSuffix: suffix,
+            aBirthday: birthday,
+            aPhoneNumber: phoneNumber,
+            aEmail: email,
+            aPassword: password,
+            aStreet: street,
+            aBarangay: barangay,
+            aCity: city,
+            aProvince: province,
+            aZipCode: zipCode
+
         },
         success: function(returnedData){
-        
-            Swal.fire({
-            title: "Success!",
-            text: "User added successfully!",
-            icon: "success",
-            confirmButtonText: "Click to Reload"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload(true);
-                }
-        });
-
+            if (returnedData.trim() === "User is added successfully.") {
+                Swal.fire({
+                title: "Success!",
+                text: "User registered successfully!",
+                icon: "success",
+                confirmButtonText: "Click to Reload"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload(true);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Database Error!",
+                    text: returnedData,
+                    icon: "error"
+                });
+            }
         },
         error: function(xhr){ // xhr = XMLHttpRequest
             alert(xhr.status + " : " + xhr.responseText);
@@ -40,19 +92,24 @@ function updateFunc(userID) {
             uID: userID                
         },
         success: function(returnedData){
-
-            Swal.fire({
-            title: "Success!",
-            text: "User updated successfully!",
-            icon: "success",
-            confirmButtonText: "Click to Reload"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload(true);
-                }
-            });
-
-
+            if (returnedData.trim() === "User is updated successfully.") {
+                Swal.fire({
+                title: "Success!",
+                text: "User updated successfully!",
+                icon: "success",
+                confirmButtonText: "Click to Reload"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload(true);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Database Error!",
+                    text: returnedData,
+                    icon: "error"
+                });
+            }
         },
         error: function(xhr){ // xhr = 
             alert(xhr.status + " : " + xhr.responseText);
@@ -68,18 +125,24 @@ function deleteFunc(userID) {
             dID: userID
         },
         success: function(returnedData){
-            
-            Swal.fire({
-            title: "Success!",
-            text: "User deleted successfully!",
-            icon: "success",
-            confirmButtonText: "Click to Reload"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload(true);
-                }
-            });
-
+            if (returnedData.trim() === "User is deleted successfully.") {
+                Swal.fire({
+                title: "Success!",
+                text: "User deleted successfully!",
+                icon: "success",
+                confirmButtonText: "Click to Reload"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload(true);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Database Error!",
+                    text: returnedData,
+                    icon: "error"
+                });
+            }
         },
         error: function(xhr){  
             alert(xhr.status + " : " + xhr.responseText);

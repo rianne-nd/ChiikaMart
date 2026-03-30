@@ -54,7 +54,7 @@ This file contains the core logic inside the `UserManagement` class. Think of it
 | Function | Parameters | Description / How it works |
 |---|---|---|
 | `__construct()` | — | The "Setup" function. When this class is called, it automatically establishes the database connection using the `Database` class and opens up the `Registration` model so we can run SQL queries. |
-| `addUserFunc()` | `$firstName`, `$lastName` | Takes the typed-in names and passes them directly to the `createRegistration` method. This saves the user to the `tbl_registration` table in the database. |
+| `addUserFunc()` | `$firstName, $lastName, $suffix, $birthday, $phone, ...` | Takes all the typed-in user details and passes them directly to the `createRegistration` method. This saves the user to the `users` table in the database. |
 | `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | Sends the updated user data to `regsModel->updateRegistration()` to modify an existing record in the database. |
 | `deleteUserFunc()` | `$userID` | Sends the ID to `regsModel->deleteRegistration()` to permanently remove a user from the database. |
 | `getUser()` | — | Fetches all currently tracked users directly from the database through `regsModel->readRegistration()`. |
@@ -79,10 +79,10 @@ This file handles the exact native SQL queries and database manipulation that ta
 | Function | Parameters | Description / How it works |
 |---|---|---|
 | `__construct()` | `$db` | It catches the live database connection (from `database.php`) and saves it inside the class so the other functions can use it to talk to MySQL. |
-| `createRegistration()` | `$firstName, $lastName` | Prepares and execute an SQL statement: `INSERT INTO tbl_registration...`. It "binds" `$firstName` and `$lastName` to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
-| `updateRegistration()` | `$firstName, $lastName, $userID` | Prepares and executes an `UPDATE tbl_registration` statement. Modifies the existing user's first/last name using the unique ID and syncs the new `updatedAt` timestamp. |
-| `deleteRegistration()` | `$userID` | Prepares and executes a `DELETE FROM tbl_registration` statement, completely removing the specific user record targeting their unique ID. |
-| `readRegistration()` | — | Prepares and executes a `SELECT * FROM tbl_registration` statement to fetch users from the database. |
+| `createRegistration()` | `$firstName, $lastName, $suffix, ...` | Prepares and execute an SQL statement: `INSERT INTO users...`. It "binds" all input data to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
+| `updateRegistration()` | `$firstName, $lastName, $userID` | Prepares and executes an `UPDATE users` statement. Modifies the existing user's first/last name using the unique ID and syncs the new `updatedAt` timestamp. |
+| `deleteRegistration()` | `$userID` | Prepares and executes a `DELETE FROM users` statement, completely removing the specific user record targeting their unique ID. |
+| `readRegistration()` | — | Prepares and executes a `SELECT * FROM users` statement to fetch users from the database. |
 
 ---
 
@@ -92,7 +92,7 @@ Starts the session, instantiates `UserManagement`, it listens strictly to **POST
 
 | POST Keys Detected | Action It Triggers in Business Logic |
 |---|---|
-| If `aFName` and `aLName` are received | Triggers `addUserFunc()` → Adds user to DB |
+| If all registration fields (`aFName`, `aLName`, `aEmail`, `aPassword`...) are received | Triggers `addUserFunc()` → Adds fully populated user to DB |
 | If `uFName`, `uLName`, and `uID` are received | Triggers `updateUserFunc()` → Modifies user |
 | If `dID` is received | Triggers `deleteUserFunc()` → Erases user |
 | If `lFName` and `lLName` are received | Triggers `loginUserFunc()` → Tries to log in |
@@ -105,7 +105,7 @@ This JavaScript file is loaded on the user's browser. It uses **jQuery AJAX** to
 
 | **Function** | **Parameters** | **Description / How it works** |
 |---|---|---|
-| `addFunc()` | — | Reads `txtFirstname` and `txtLastname` input values. Behind the scenes, it sends a secret POST package (using `aFName` and `aLName`) to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
+| `addFunc()` | — | Reads all registration input values (Name, Email, Password, Address, etc.) and validates that passwords match. Behind the scenes, it sends the full POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
 | `updateFunc()` | `userID` | Reads `txtFirstname` and `txtLastname` input values, grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
 | `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the given `userID` to the Controller, alerts success, and refreshes. |
 | `redirectFunc()` | `redirectID` | Simple navigation. `1` takes you to Login, `2` to Dashboard, and `3` to Registration. |
@@ -142,14 +142,14 @@ What external tools are we using to make this project look and feel modern?
 As a beginner, tracking how moving parts talk to each other is vital. Let's trace the exact lifecycle of what happens when you decide to register a brand new user in the app.
 
 1.  **The User Interaction (View)**
-    The user is sitting on `RegistrationPage.php`. They type "John" and "Doe" into the text fields and click the **ADD** button.
+    The user is sitting on `RegistrationPage.php`. They fill out all the fields (Name, Email, Password, Address, etc.) and click the **ADD** button.
 2.  **The Javascript Intercept (Service.js)**
-    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs the text "John" and "Doe", packages them into variables called `aFName` and `aLName`. It then silently sends them (via an AJAX POST request) to `UserController.php`. 
+    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs all the text inputs, validates them (e.g., checking if passwords match), packages them into variables (like `aFName`, `aEmail`), and silently sends them (via an AJAX POST request) to `UserController.php`. 
 3.  **The Traffic Cop (Controller)**
-    `UserController.php` receives the hidden package. Because it detects the keys `aFName` and `aLName`, it knows exactly what to do. It immediately triggers the `addUserFunc()` located in the Business Logic layer.
+    `UserController.php` receives the hidden package. Because it detects the wide array of new registration POST keys, it knows exactly what to do and triggers `addUserFunc()` in the Business Logic layer with all the collected arguments.
 4.  **The Brain Checks the Request (Business Logic)**
-    `UserManagement.php` wakes up. It receives "John" and "Doe". It recognizes we need to save this permanently, so it signals the MySQL Database Model (`registrationModel.php`) to prepare a `createRegistration()` action.
+    `UserManagement.php` wakes up. It takes all the provided fields and delegates them directly to the MySQL Database Model (`registrationModel.php`) to prepare a `createRegistration()` action.
 5.  **The Cabinet Saves the File (Model & Database)**
-    `registrationModel.php` receives the data. It connects to the MySQL Server on port 3307 using `database.php`. It securely translates the data into an SQL string: `INSERT INTO tbl_registration (firstName, lastName)...` and fires it into the database. John Doe is now permanently saved!
+    `registrationModel.php` receives the exact data. It connects to the MySQL Server on port 3307 using `database.php`. It securely translates the data into a parameterized SQL string: `INSERT INTO users (firstName, lastName, email, password)...` and fires it into the database. The comprehensive user profile is now permanently saved!
 6.  **The Reply & The Reload (Back to View)**
     A success signal cascades back up the chain to the Controller, which replies to `Service.js` saying "Target Aquired!". `Service.js` flashes a beautiful SweetAlert2 checkmark to the user, and finally refreshes the page so the brand new DataTables list can show John Doe sitting in the table.

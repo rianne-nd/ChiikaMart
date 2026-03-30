@@ -6,8 +6,8 @@
     
     $usermanagement = new UserManagement();
    
-    if(isset($_POST['aFName'], $_POST['aLName'])) {
-        $usermanagement->addUserFunc($_POST['aFName'], $_POST['aLName']);
+    if(isset($_POST['aFName'], $_POST['aLName'], $_POST['aSuffix'], $_POST['aBirthday'], $_POST['aPhoneNumber'], $_POST['aEmail'], $_POST['aPassword'], $_POST['aStreet'], $_POST['aBarangay'], $_POST['aCity'], $_POST['aProvince'], $_POST['aZipCode'])) {
+        $usermanagement->addUserFunc($_POST['aFName'], $_POST['aLName'], $_POST['aSuffix'], $_POST['aBirthday'], $_POST['aPhoneNumber'], $_POST['aEmail'], $_POST['aPassword'], $_POST['aStreet'], $_POST['aBarangay'], $_POST['aCity'], $_POST['aProvince'], $_POST['aZipCode']);
         exit;
     } else if (isset($_POST['uFName'], $_POST['uLName'], $_POST['uID'])) {
         $usermanagement->updateUserFunc($_POST['uFName'], $_POST['uLName'], $_POST['uID']);

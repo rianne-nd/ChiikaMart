@@ -6,16 +6,26 @@
             $this->conn = $db; // Assign the database connection to the private variable $conn for use within the class methods.
         }
 
-    public function createRegistration ($firstName, $lastName) {
+    public function createRegistration ($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $password, $street, $barangay, $city, $province, $zipCode) {
         try {
-            $query = "INSERT INTO tbl_registration 
-            (firstName, lastName, createdAt, updatedAt) 
-            VALUES (:firstName, :lastName, :createdAt, :updatedAt)";
+            $query = "INSERT INTO users
+            (firstName, lastName, suffix, birthday, phoneNumber, email, password, street, barangay, city, province, zipCode, createdAt, updatedAt)
+            VALUES (:firstName, :lastName, :suffix, :birthday, :phoneNumber, :email, :password, :street, :barangay, :city, :province, :zipCode, :createdAt, :updatedAt)";
 
             $response = $this->conn->prepare($query);
 
             $response->bindParam(':firstName', $firstName);
             $response->bindParam(':lastName', $lastName);
+            $response->bindParam(':suffix', $suffix);
+            $response->bindParam(':birthday', $birthday);
+            $response->bindParam(':phoneNumber', $phoneNumber);
+            $response->bindParam(':email', $email);
+            $response->bindParam(':password', $password);
+            $response->bindParam(':street', $street);
+            $response->bindParam(':barangay', $barangay);
+            $response->bindParam(':city', $city);
+            $response->bindParam(':province', $province);
+            $response->bindParam(':zipCode', $zipCode);
 
             $dateNow = date('Y-m-d H:i:s'); // Get the current date and time in the format 'YYYY-MM-DD HH:MM:SS'
             
@@ -30,12 +40,14 @@
             return false;
         }
     }
+    
 
     public function updateRegistration ($firstName, $lastName, $userID) {
         try {
-            $query = "UPDATE tbl_registration 
-            SET firstName = :firstName, lastName = :lastName, updatedAt = :updatedAt 
+            $query = "UPDATE users
+            SET firstName = :firstName, lastName = :lastName, updatedAt = :updatedAt
             WHERE userID = :userID";
+
 
             $response = $this->conn->prepare($query);
 
@@ -58,9 +70,7 @@
 
     public function deleteRegistration ($userID) {
             try {
-                $query = "DELETE FROM tbl_registration 
-                WHERE userID = :userID";
-
+                $query = "DELETE FROM users WHERE userID = :userID";
                 $response = $this->conn->prepare($query);
                 $response->bindParam(':userID', $userID);
 
@@ -75,8 +85,7 @@
 
     public function readRegistration () {
             try {
-                $query = "SELECT * FROM tbl_registration 
-                WHERE userID = :userID";
+                $query = "SELECT * FROM users";
 
                 $response = $this->conn->prepare($query);
 

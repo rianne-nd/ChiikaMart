@@ -49,14 +49,83 @@
                     </div>
                     <div class="input-field col s6 m6 l6">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="txtFirstname" type="text" class="validate">
+                        <input id="txtFirstname" type="text" class="validate" required>
                         <label for="txtFirstname">First Name</label>
                     </div>
                     <div class="input-field col s6 m6 l6"> 
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="txtLastname" type="text" class="validate">
+                        <input id="txtLastname" type="text" class="validate" required>
                         <label for="txtLastname">Last Name</label>
                     </div>
+                        <div class="input-field col s12 m4 l4"> 
+                        <i class="material-icons prefix">person_outline</i>
+                        <input id="txtSuffix" type="text" class="validate" placeholder="Jr, Sr, III (Optional)">
+                        <label for="txtSuffix">Suffix</label>
+                    </div>
+
+                    <div class="col s12"><h6 class="center-align">Account Details</h6></div>
+
+                    <div class="input-field col s12 m12 l12">
+                        <i class="material-icons prefix">email</i>
+                        <input id="txtEmail" type="email" class="validate" required>
+                        <label for="txtEmail">Email Address</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">lock</i>
+                        <input id="txtPassword" type="password" class="validate" required>
+                        <label for="txtPassword">Password</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">lock_outline</i>
+                        <input id="txtConfirmPassword" type="password" class="validate" required>
+                        <label for="txtConfirmPassword">Confirm Password</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">phone</i>
+                        <input id="txtPhoneNumber" type="tel" class="validate" required>
+                        <label for="txtPhoneNumber">Phone Number</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">cake</i>
+                        <input id="txtBirthday" type="date" class="validate" required>
+                        <label for="txtBirthday">Birthday</label>
+                    </div>
+
+                    <div class="col s12"><h6 class="center-align">Shipping Address</h6></div>
+
+                    <div class="input-field col s12 m12 l12">
+                        <i class="material-icons prefix">home</i>
+                        <input id="txtStreet" type="text" class="validate" placeholder="House/Unit No., Street Name, Building" required>
+                        <label for="txtStreet">Street Address</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">location_city</i>
+                        <input id="txtBarangay" type="text" class="validate" required>
+                        <label for="txtBarangay">Barangay</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">location_on</i>
+                        <input id="txtCity" type="text" class="validate" required>
+                        <label for="txtCity">City / Municipality</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">map</i>
+                        <input id="txtProvince" type="text" class="validate" required>
+                        <label for="txtProvince">Province</label>
+                    </div>
+
+                    <div class="input-field col s12 m6 l6">
+                        <i class="material-icons prefix">markunread_mailbox</i>
+                        <input id="txtZipCode" type="text" class="validate" required>
+                        <label for="txtZipCode">Zip Code</label>
+                    </div>   
                     <div class = "col s12 m12 l12">
                         <a class="waves-effect waves-light btn-large #0d47a1 blue darken-4" style="width: 100%;" onclick="addFunc()">
                         <i class="material-icons right">add_circle</i>
