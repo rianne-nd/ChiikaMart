@@ -80,6 +80,9 @@ This file handles the exact native SQL queries and database manipulation that ta
 |---|---|---|
 | `__construct()` | `$db` | It catches the live database connection (from `database.php`) and saves it inside the class so the other functions can use it to talk to MySQL. |
 | `createRegistration()` | `$firstName, $lastName` | Prepares and execute an SQL statement: `INSERT INTO tbl_registration...`. It "binds" `$firstName` and `$lastName` to the query, alongside automatic timestamp variables for `createdAt` and `updatedAt`, then executes the push! |
+| `updateRegistration()` | `$firstName, $lastName, $userID` | Prepares and executes an `UPDATE tbl_registration` statement. Modifies the existing user's first/last name using the unique ID and syncs the new `updatedAt` timestamp. |
+| `deleteRegistration()` | `$userID` | Prepares and executes a `DELETE FROM tbl_registration` statement, completely removing the specific user record targeting their unique ID. |
+| `readRegistration()` | — | Prepares and executes a `SELECT * FROM tbl_registration` statement to fetch users from the database. |
 
 ---
 

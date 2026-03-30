@@ -26,7 +26,17 @@ This file tracks the ongoing evolution of the ChiikaMart (1811 User Management) 
 
 ---
 
+## � March 31, 2026 - Expanding Database Capabilities & Form Design
+* **Registration Model Expanded:** Implemented the full suite of CRUD database queries inside `registrationModel.php`:
+    * Added `updateRegistration($firstName, $lastName, $userID)` pointing an `UPDATE` query to `tbl_registration`.
+    * Added `deleteRegistration($userID)` pointing a `DELETE` query targeting specific records in `tbl_registration`.
+    * Added `readRegistration()` building out the initial logic for retrieving `SELECT` statements from the database.
+* **Controller Updates:** Changed POST keys in `UserController.php` and variable references inside `Service.js` to ensure the Javascript properly sends the data points using matching identifiers (using `aFName`, `aLName`).
+* **Document Refinements:** Refreshed `README.md` to properly document the new methods within `model/registrationModel.php`, `bl/UserManagement.php`'s newly integrated CRUD mapping, and properly cited the usage of the `chiikamart_db` connection.
+
+---
+
 ## 🚀 Next Steps / Pending
-* Update the `$usermanagement->getUser()` function to `SELECT` data from the database so the frontend DataTables table loads actual remote database records instead of just the session cache.
-* Migrate the Update (`UPDATE` SQL) and Delete (`DELETE` SQL) functionality from the session array to the database via `registrationModel.php`.
+* Fix potential parameter bug mapping within `readRegistration()` (specifically `WHERE userID = :userID`). Connect that functional query properly to the frontend DataTables table.
+* Expand the `RegistrationPage` inputs to get all necessary User Data fields (`firstName`, `lastName`, `email`, `address`, `phoneNumber`). Configure the corresponding database tables so they hold all extra properties safely.
 * Convert the login authorization to verify credentials via a database query.
