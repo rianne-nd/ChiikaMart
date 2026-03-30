@@ -1,6 +1,3 @@
-// Service.js
-// This file contains the JavaScript functions that handle AJAX requests for user management operations such as adding, updating, deleting, and logging in users. It also includes a function for redirecting to different pages based on user actions.
-
 function addFunc() {
     var firstName = document.getElementById("txtFirstname").value;
     var lastName = document.getElementById("txtLastname").value;
@@ -8,8 +5,8 @@ function addFunc() {
         url: '../controllers/UserController.php', 
         type: 'POST',
         data: { 
-            fname: firstName,
-            lName: lastName
+            aFName: firstName,
+            aLName: lastName
         },
         success: function(returnedData){
         
@@ -164,3 +161,7 @@ function loginFunc() {
         }   
     });    
 }
+
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    });

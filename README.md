@@ -55,9 +55,9 @@ This file contains the core logic inside the `UserManagement` class. Think of it
 |---|---|---|
 | `__construct()` | — | The "Setup" function. When this class is called, it automatically establishes the database connection using the `Database` class and opens up the `Registration` model so we can run SQL queries. |
 | `addUserFunc()` | `$firstName`, `$lastName` | Takes the typed-in names and passes them directly to the `createRegistration` method. This saves the user to the `tbl_registration` table in the database. |
-| `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | *Legacy:* Currently updates the `FirstName` and `LastName` of the user inside the temporary PHP `$_SESSION` array. |
-| `deleteUserFunc()` | `$userID` | *Legacy:* Removes the targeted user from the `$_SESSION` array by using PHP's `unset()` function, then re-indexes the array cleanly. |
-| `getUser()` | — | *Legacy:* Fetches and returns all currently tracked users from `$_SESSION['userArray']`. If there's no session, it safely returns an empty array. |
+| `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | Sends the updated user data to `regsModel->updateRegistration()` to modify an existing record in the database. |
+| `deleteUserFunc()` | `$userID` | Sends the ID to `regsModel->deleteRegistration()` to permanently remove a user from the database. |
+| `getUser()` | — | Fetches all currently tracked users directly from the database through `regsModel->readRegistration()`. |
 | `loginUserFunc()` | `$firstName`, `$lastName` | Searches the current session array for matched names. It replies with `"true"` if the user exists, and `"false"` if they do not. |
 
 ---
@@ -68,7 +68,7 @@ This file connects our PHP code to the MySQL Database program (typically running
 
 | Function | Parameters | Description / How it works |
 |---|---|---|
-| `connect()` | — | Connects to `projectappdev_db`. **Crucial Detail:** We specifically route the connection to port `3307`. This bypasses default XAMPP connection errors (like "driver not found" or "Access denied") that happen if another local MySQL process is holding the default 3306 port hostage! |
+| `connect()` | — | Connects to `chiikamart_db`. **Crucial Detail:** We specifically route the connection to port `3307`. This bypasses default XAMPP connection errors (like "driver not found" or "Access denied") that happen if another local MySQL process is holding the default 3306 port hostage! |
 
 ---
 
@@ -89,7 +89,7 @@ Starts the session, instantiates `UserManagement`, it listens strictly to **POST
 
 | POST Keys Detected | Action It Triggers in Business Logic |
 |---|---|
-| If `fname` and `lName` are received | Triggers `addUserFunc()` → Adds user to DB |
+| If `aFName` and `aLName` are received | Triggers `addUserFunc()` → Adds user to DB |
 | If `uFName`, `uLName`, and `uID` are received | Triggers `updateUserFunc()` → Modifies user |
 | If `dID` is received | Triggers `deleteUserFunc()` → Erases user |
 | If `lFName` and `lLName` are received | Triggers `loginUserFunc()` → Tries to log in |
@@ -100,13 +100,14 @@ Starts the session, instantiates `UserManagement`, it listens strictly to **POST
 
 This JavaScript file is loaded on the user's browser. It uses **jQuery AJAX** to magically talk to `UserController.php` *without* making the browser page refresh or flicker! It also triggers **SweetAlert2** popups for a beautiful user experience. 
 
-| Function | Parameters | Description / How it works |
+| **Function** | **Parameters** | **Description / How it works** |
 |---|---|---|
-| `addFunc()` | — | Reads `txtFirstname` and `txtLastname` input values. Behind the scenes, it sends a secret POST package to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
-| `updateFunc()` | `userID` |   Reads  `txtFirstname`  and  `txtLastname`  input values, it grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
+| `addFunc()` | — | Reads `txtFirstname` and `txtLastname` input values. Behind the scenes, it sends a secret POST package (using `aFName` and `aLName`) to the Controller. On success, it pops up a green SweetAlert checkmark and auto-reloads the page to show the new data. |
+| `updateFunc()` | `userID` | Reads `txtFirstname` and `txtLastname` input values, grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
 | `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the given `userID` to the Controller, alerts success, and refreshes. |
 | `redirectFunc()` | `redirectID` | Simple navigation. `1` takes you to Login, `2` to Dashboard, and `3` to Registration. |
 | `loginFunc()` | — | Captures `login_fName` and `login_lName` input values and asks the Controller if they are valid. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
+| `$(document).ready()` | — | **New:** Initializes DataTables right when the page loads, moved here for cleaner separation of Javascript from HTML view files. |
 
 ---
 
@@ -116,7 +117,7 @@ This page is what the user interacts with. It includes:
 1.  **A Navigation Bar** to redirect around the site.
 2.  **Input Forms** (First Name, Last Name, and the **ADD** button).
 3.  **An Interactive Table**: Displays all user data cleanly.
-    *   *Beginner Note:* Recently upgraded by utilizing **DataTables**. DataTables is a powerful script that turns a boring standard HTML table into a dynamic, highly interactive application complete with instant Searching, Sorting (A-Z), and Page Pagination!
+    *   *Beginner Note:* Recently upgraded by utilizing **DataTables**. DataTables is a powerful script that turns a boring standard HTML table into a dynamic, highly interactive application complete with instant Searching, Sorting (A-Z), and Page Pagination! Initialization has been cleanly moved to `Service.js`.
 
 ---
 
@@ -140,9 +141,9 @@ As a beginner, tracking how moving parts talk to each other is vital. Let's trac
 1.  **The User Interaction (View)**
     The user is sitting on `RegistrationPage.php`. They type "John" and "Doe" into the text fields and click the **ADD** button.
 2.  **The Javascript Intercept (Service.js)**
-    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs the text "John" and "Doe", packages them into variables called `fname` and `lName`. It then silently sends them (via an AJAX POST request) to `UserController.php`. 
+    The click triggers `addFunc()` inside `Service.js`. The Javascript grabs the text "John" and "Doe", packages them into variables called `aFName` and `aLName`. It then silently sends them (via an AJAX POST request) to `UserController.php`. 
 3.  **The Traffic Cop (Controller)**
-    `UserController.php` receives the hidden package. Because it detects the keys `fname` and `lName`, it knows exactly what to do. It immediately triggers the `addUserFunc()` located in the Business Logic layer.
+    `UserController.php` receives the hidden package. Because it detects the keys `aFName` and `aLName`, it knows exactly what to do. It immediately triggers the `addUserFunc()` located in the Business Logic layer.
 4.  **The Brain Checks the Request (Business Logic)**
     `UserManagement.php` wakes up. It receives "John" and "Doe". It recognizes we need to save this permanently, so it signals the MySQL Database Model (`registrationModel.php`) to prepare a `createRegistration()` action.
 5.  **The Cabinet Saves the File (Model & Database)**
