@@ -98,5 +98,25 @@
             }
         }
 
+    public function checkLoginDetails ($email, $password) {
+        try {
+            $query = "SELECT * FROM users 
+            WHERE email = :email AND password = :password";
+
+            $response = $this->conn->prepare($query);
+
+            $response->bindParam(':email', $email);
+            $response->bindParam(':password', $password);
+
+            $response->execute();
+            return $response->fetch(PDO::FETCH_ASSOC); // Fetch the result as an associative array. If a matching record is found, it will return the user details; otherwise, it will return false.
+        }
+        catch (PDOException $ex) {
+            // error handling for database 
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
     }
 ?>

@@ -12,27 +12,25 @@
     <title>Login</title>
 </head>
 <body>
-    <!-- First Name -->
-    <div class="input-field col s6 m6 l6">
-        <i class="material-icons prefix">account_circle</i>
-        <input id="login_fName" type="text" class="validate">
-        <label for="login_fName">First Name</label>
+<div class="input-field col s12 m12 l12">
+        <i class="material-icons prefix">email</i>
+        <input id="txtLoginEmail" type="email" class="validate" required>
+        <label for="txtLoginEmail">Email</label>
     </div>
-    <!-- Last Name -->
-    <div class="input-field col s6 m6 l6"> 
-        <i class="material-icons prefix">account_circle</i>
-        <input id="login_lName" type="text" class="validate">
-        <label for="login_lName">Last Name</label>
+
+    <div class="input-field col s12 m12 l12">
+        <i class="material-icons prefix">lock</i>
+        <input id="txtLoginPassword" type="password" class="validate" required>
+        <label for="txtLoginPassword">Password</label>
     </div>
-    <!-- Login Button -->
-    <div class = "col s12 m12 l12">
-        <a class="waves-effect waves-light btn-large #0d47a1 blue darken-4" style="width: 100%;" onclick="loginFunc()"> Login </a>
-        <i class="material-icons right">add_circle</i>
-        
-        </a>
+
+    <div class="col s12 m12 l12">
+        <button type="submit" class="waves-effect waves-light btn-large blue darken-4" style="width: 100%;" onclick="loginFunc()">
+            Login
+            <i class="material-icons right">login</i>
+        </button>
     </div>
-    <!-- User Info (Display the logged-in user's first and last name) -->
-    <div id="userInfo" class="col s12 m12 l12" style="margin-top: 20px; text-align: center; font-size: 1.2em;">
+
 
     </div>
     <script src = "../scripts/Service.js"></script>

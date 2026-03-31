@@ -55,7 +55,7 @@ function addFunc() {
 
         },
         success: function(returnedData){
-            if (returnedData.trim() === "User is added successfully.") {
+            if (returnedData.trim() === "true") {
                 Swal.fire({
                 title: "Success!",
                 text: "User registered successfully!",
@@ -69,7 +69,7 @@ function addFunc() {
             } else {
                 Swal.fire({
                     title: "Database Error!",
-                    text: returnedData,
+                    text: "Failed to register user.",
                     icon: "error"
                 });
             }
@@ -78,6 +78,56 @@ function addFunc() {
             alert(xhr.status + " : " + xhr.responseText);
         }
     });
+}
+
+function redirectFunc(redirectID) {
+    if(redirectID == 1) {
+        window.location.href = "../views/LoginPage.php";
+    }
+    else if(redirectID == 2) {
+        window.location.href = "../views/Dasboard.php";
+    }
+    else if(redirectID == 3) {
+        window.location.href = "../views/RegistrationPage.php";
+    }
+    else if(redirectID == 4) {
+        window.location.href = "../views/HomePage.php";
+    }
+}
+
+function loginFunc() {
+    var loginEmail = document.getElementById("txtLoginEmail").value;
+    var loginPassword = document.getElementById("txtLoginPassword").value;
+    $.ajax({
+        url: '../controllers/UserController.php', 
+        type: 'POST',
+        data: { 
+            lEmail: loginEmail,
+            lPassword: loginPassword
+        },
+        success: function(returnedData){
+            if (returnedData.trim() === "true") {
+                Swal.fire({
+                    title: "Success!",
+                    text: "User logged in successfully!",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+                
+
+                redirectFunc(3); // Redirect to dashboard after successful login
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: "User not found. Please check your credentials and try again.",
+                    icon: "error"
+                });
+            }
+        },
+        error: function(xhr){
+            alert(xhr.status + " : " + xhr.responseText);
+        }   
+    });    
 }
 
 function updateFunc(userID) {
@@ -92,7 +142,7 @@ function updateFunc(userID) {
             uID: userID                
         },
         success: function(returnedData){
-            if (returnedData.trim() === "User is updated successfully.") {
+            if (returnedData.trim() === "true") {
                 Swal.fire({
                 title: "Success!",
                 text: "User updated successfully!",
@@ -106,7 +156,7 @@ function updateFunc(userID) {
             } else {
                 Swal.fire({
                     title: "Database Error!",
-                    text: returnedData,
+                    text: "Failed to update user.",
                     icon: "error"
                 });
             }
@@ -125,7 +175,7 @@ function deleteFunc(userID) {
             dID: userID
         },
         success: function(returnedData){
-            if (returnedData.trim() === "User is deleted successfully.") {
+            if (returnedData.trim() === "true") {
                 Swal.fire({
                 title: "Success!",
                 text: "User deleted successfully!",
@@ -139,7 +189,7 @@ function deleteFunc(userID) {
             } else {
                 Swal.fire({
                     title: "Database Error!",
-                    text: returnedData,
+                    text: "Failed to delete user.",
                     icon: "error"
                 });
             }
@@ -150,80 +200,8 @@ function deleteFunc(userID) {
     });
 }
 
-function changeFirstName() {
-    var firstNameValue = document.getElementById("txtFirstname").value;
-    var LastnameValue = document.getElementById("txtLastname").value;
-    $.ajax({
-        url: '../controllers/UserController.php', 
-        type: 'POST',
-        data: { 
-            fname: firstNameValue,
-            lName: LastnameValue
-            
-        },
-        success: function(returnedData){
-            // You can handle the response from the server here if needed
-            alert(returnedData);
-            location.reload(true);
-        },
-        error: function(xhr){ // xhr = XMLHttpRequest
-            alert("Status : " + xhr.status + "\n" +
-                "Error Message : " + xhr.responseText);
-        }
-    })
-}
 
-function redirectFunc(redirectID) {
-    if(redirectID == 1) {
-        window.location.href = "../views/LoginPage.php";
-    }
-    else if(redirectID == 2) {
-        window.location.href = "../views/Dasboard.php";
-    }
-    else if(redirectID == 3) {
-        window.location.href = "../views/RegistrationPage.php";
-    }
-}
 
-function loginFunc() {
-    var loginFirstName = document.getElementById("login_fName").value;
-    var loginLastName = document.getElementById("login_lName").value;
-    $.ajax({
-        url: '../controllers/UserController.php', 
-        type: 'POST',
-        data: { 
-            lFName: loginFirstName,
-            lLName: loginLastName
-        },
-        success: function(returnedData){
-            if (returnedData.trim() === "true") {
-                Swal.fire({
-                    title: "Success!",
-                    text: "User logged in successfully!",
-                    icon: "success",
-                    confirmButtonText: "OK"
-                });
-                
-                // Display the logged-in user's first and last name on the page after successful login
-                var userInfoDiv = document.getElementById("userInfo");
-                if (userInfoDiv) {
-                    userInfoDiv.innerHTML = "<h4>User Info</h4><p>First Name: " + loginFirstName + "</p><p>Last Name: " + loginLastName + "</p>";
-                }
-
-                redirectFunc(3); // Redirect to dashboard after successful login
-            } else {
-                Swal.fire({
-                    title: "Error!",
-                    text: "User not found. Please check your credentials and try again.",
-                    icon: "error"
-                });
-            }
-        },
-        error: function(xhr){
-            alert(xhr.status + " : " + xhr.responseText);
-        }   
-    });    
-}
 
     $(document).ready( function () {
         $('#myTable').DataTable();

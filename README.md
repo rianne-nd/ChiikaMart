@@ -58,7 +58,7 @@ This file contains the core logic inside the `UserManagement` class. Think of it
 | `updateUserFunc()` | `$firstName`, `$lastName`, `$userID` | Sends the updated user data to `regsModel->updateRegistration()` to modify an existing record in the database. |
 | `deleteUserFunc()` | `$userID` | Sends the ID to `regsModel->deleteRegistration()` to permanently remove a user from the database. |
 | `getUser()` | — | Fetches all currently tracked users directly from the database through `regsModel->readRegistration()`. |
-| `loginUserFunc()` | `$firstName`, `$lastName` | Searches the current session array for matched names. It replies with `"true"` if the user exists, and `"false"` if they do not. |
+| `loginUserFunc()` | `$email`, `$password` | Uses `regsModel->checkLoginDetails()` to query the database and verify the email and password combination instead of searching temporary session memory. |
 
 ---
 
@@ -83,6 +83,7 @@ This file handles the exact native SQL queries and database manipulation that ta
 | `updateRegistration()` | `$firstName, $lastName, $userID` | Prepares and executes an `UPDATE users` statement. Modifies the existing user's first/last name using the unique ID and syncs the new `updatedAt` timestamp. |
 | `deleteRegistration()` | `$userID` | Prepares and executes a `DELETE FROM users` statement, completely removing the specific user record targeting their unique ID. |
 | `readRegistration()` | — | Prepares and executes a `SELECT * FROM users` statement to fetch users from the database. |
+| `checkLoginDetails()` | `$email`, `$password` | Performs a `SELECT` query on the `users` table looking for an exact match of the provided email and password. Returns the user details if found, or false if unauthorized. |
 
 ---
 
@@ -95,7 +96,7 @@ Starts the session, instantiates `UserManagement`, it listens strictly to **POST
 | If all registration fields (`aFName`, `aLName`, `aEmail`, `aPassword`...) are received | Triggers `addUserFunc()` → Adds fully populated user to DB |
 | If `uFName`, `uLName`, and `uID` are received | Triggers `updateUserFunc()` → Modifies user |
 | If `dID` is received | Triggers `deleteUserFunc()` → Erases user |
-| If `lFName` and `lLName` are received | Triggers `loginUserFunc()` → Tries to log in |
+| If `lEmail` and `lPassword` are received | Triggers `loginUserFunc()` → Verifies credentials in Database |
 
 ---
 
@@ -109,7 +110,7 @@ This JavaScript file is loaded on the user's browser. It uses **jQuery AJAX** to
 | `updateFunc()` | `userID` | Reads `txtFirstname` and `txtLastname` input values, grabs the user's ID, sends the new name inputs to the Controller at the given `userID`, pops up an alert, and refreshes the table. |
 | `deleteFunc()` | `userID` | Warns the user, sends a destructive POST command containing the given `userID` to the Controller, alerts success, and refreshes. |
 | `redirectFunc()` | `redirectID` | Simple navigation. `1` takes you to Login, `2` to Dashboard, and `3` to Registration. |
-| `loginFunc()` | — | Captures `login_fName` and `login_lName` input values and asks the Controller if they are valid. If `"true"`, sends the user to the Dashboard. If `"false"`, shows a red error popup. |
+| `loginFunc()` | — | Captures `txtLoginEmail` and `txtLoginPassword` input values and asks the Controller if they are valid. If `"true"`, sends the user into the App. If `"false"`, shows a red error popup. |
 | `$(document).ready()` | — | **New:** Initializes DataTables right when the page loads, moved here for cleaner separation of Javascript from HTML view files. |
 
 ---

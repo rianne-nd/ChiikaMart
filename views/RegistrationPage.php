@@ -91,7 +91,7 @@
 
                     <div class="input-field col s12 m6 l6">
                         <i class="material-icons prefix">cake</i>
-                        <input id="txtBirthday" type="date" class="validate" required>
+                        <input id="txtBirthday" type="date" class="validate">
                         <label for="txtBirthday">Birthday</label>
                     </div>
 

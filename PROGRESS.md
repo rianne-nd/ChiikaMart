@@ -27,6 +27,7 @@ This file tracks the ongoing evolution of the ChiikaMart (1811 User Management) 
 ---
 
 ## � March 31, 2026 - Expanding Database Capabilities & Form Design
+* **Login Implementation:** Successfully transitioned the login workflow away from temporary array checks. The loginFunc in Javascript now collects email and password, ships them securely via POST, and queries the users table via checkLoginDetails(). If verified, logs the user in successfully.
 * **Full Registration Implementation:** Expanded `RegistrationPage` inputs to collect all necessary User Data (suffix, birthday, phone, email, password, address, etc.). Updated `addFunc` in `Service.js`, `UserController.php`, `UserManagement.php`, and `createRegistration` in `registrationModel.php` to handle all this new data and map it successfully to the `users` table.
 * **Registration Model Expanded:** Implemented the full suite of CRUD database queries inside `registrationModel.php`:
     * Added `updateRegistration($firstName, $lastName, $userID)` pointing an `UPDATE` query to `tbl_registration`.
@@ -40,6 +41,6 @@ This file tracks the ongoing evolution of the ChiikaMart (1811 User Management) 
 ## 🚀 Next Steps / Pending
 * Fix potential parameter bug mapping within `readRegistration()` (specifically `WHERE userID = :userID`). Connect that functional query properly to the frontend DataTables table.
 * Expand the `RegistrationPage` inputs to get all necessary User Data fields (`firstName`, `lastName`, `email`, `address`, `phoneNumber`). Configure the corresponding database tables so they hold all extra properties safely.
-* Convert the login authorization to verify credentials via a database query.
+
 
 

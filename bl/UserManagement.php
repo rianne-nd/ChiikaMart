@@ -16,10 +16,9 @@ require_once '../model/registrationModel.php';
         public function addUserFunc($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $password, $street, $barangay, $city, $province, $zipCode): void {
             try {
                 if($this->regsModel->createRegistration($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $password, $street, $barangay, $city, $province, $zipCode)) {
-                    echo "User is added successfully.";
+                    echo "true";
                 } else {
-                    // If the registration creation fails, return an error response
-                    echo "Failed to create registration.";
+                    echo "false";
                 }
 
             } catch (InvalidArgumentException $ex) {
@@ -31,18 +30,18 @@ require_once '../model/registrationModel.php';
 
         public function updateUserFunc($firstName, $lastName, $userID): void { 
             if($this ->regsModel->updateRegistration($firstName, $lastName, $userID)) {
-                echo "User is updated successfully.";
+                echo "true";
             }
                 else {
-                    echo "Error is encountered while updating the user.";
+                    echo "false";
                 }
         }
         
         public function deleteUserFunc($userID): void {
             if($this ->regsModel->deleteRegistration($userID)) {
-                echo "User is deleted successfully.";
+                echo "true";
             } else {
-                echo "Error is encountered while deleting the user.";
+                echo "false";
             }
         }  
         public function getUser() {
@@ -51,20 +50,13 @@ require_once '../model/registrationModel.php';
             return $response->fetchAll(PDO::FETCH_ASSOC); // Fetch all the registration records as an associative array and return it. This allows the calling code to access the user data in a structured format for display or further processing.
         }
 
-        public function loginUserFunc($firstName, $lastName) {
-            $fnameColumn = array_column($_SESSION['userArray'], 'FirstName'); // get array of first names
-            $lnameColumn = array_column($_SESSION['userArray'], 'LastName'); // get array of last names
-
-            // $firstName and $lastName are recieved from loginUserFunc in UserController.php, it is the needle we are looking for inside the haystack collumn $fnameColumn and $lnameColumn. If both the first name and last name are found in their respective columns, we return "true". If either the first name or last name is not found, we return "false". This allows us to check if a user's first and last name exist in the session array for login purposes.
-            $fNameSearch = array_search($firstName, $fnameColumn); // search for first name in array
-            $lNameSearch = array_search($lastName, $lnameColumn); // search for last name in array
-
-            // Check if both the first name and last name are found in their respective columns. If both are found, return "true". If either is not found, return "false".
-            if ($fNameSearch !== false && $lNameSearch !== false) {
+        public function loginUserFunc($email, $password) {
+            if($this -> regsModel -> checkLoginDetails($email, $password)) {
                 echo "true";
-            } else{
+            } else {
                 echo "false";
             }
+
         }
     }
 ?>
