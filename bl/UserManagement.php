@@ -10,10 +10,10 @@ require_once '../model/registrationModel.php';
             $database = new Database();  
             $db = $database->connect();  
         
-            $this->regsModel = new Registration($db); // class from registrationModel.php, used to handle registration-related operations such as creating new registrations in the database. By passing the database connection ($db) to the constructor of the Registration class, we can ensure that the UserManagement class has access to the necessary database connection for performing registration operations when needed.
+            $this->regsModel = new Registration($db); 
         }
 
-        public function addUserFunc($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $password, $street, $barangay, $city, $province, $zipCode): void {
+        public function addUserFunc($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $password, $street, $barangay, $city, $province, $zipCode) {
             try {
                 if($this->regsModel->createRegistration($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $password, $street, $barangay, $city, $province, $zipCode)) {
                     echo "true";
@@ -28,16 +28,16 @@ require_once '../model/registrationModel.php';
             }
         }
 
-        public function updateUserFunc($firstName, $lastName, $userID): void { 
+        public function updateUserFunc($firstName, $lastName, $userID)   { 
             if($this ->regsModel->updateRegistration($firstName, $lastName, $userID)) {
                 echo "true";
             }
                 else {
-                    echo "false";
+                echo "false";
                 }
         }
         
-        public function deleteUserFunc($userID): void {
+        public function deleteUserFunc($userID) {
             if($this ->regsModel->deleteRegistration($userID)) {
                 echo "true";
             } else {
@@ -45,16 +45,22 @@ require_once '../model/registrationModel.php';
             }
         }  
         public function getUser() {
-            // return $_SESSION['userArray']; // return the current list of users stored in the session variable as an array. This method allows other parts of the application, such as controllers or views, to retrieve the user data for display or further processing. 
-            $response = $this->regsModel->readRegistration(); // Call the readRegistration method of the $regsModel object to retrieve registration records from the database. The returned value is still an object
-            return $response->fetchAll(PDO::FETCH_ASSOC); // Fetch all the registration records as an associative array and return it. This allows the calling code to access the user data in a structured format for display or further processing.
+            $response = $this->regsModel->readRegistration(); 
+            return $response->fetchAll(PDO::FETCH_ASSOC); 
         }
 
+        
+
+
         public function loginUserFunc($email, $password) {
-            if($this -> regsModel -> checkLoginDetails($email, $password)) {
+            $user = $this->regsModel->checkLoginDetails($email);
+
+            $verifyPassword = password_verify($password, $user['password']);
+            if($verifyPassword) {
                 echo "true";
             } else {
                 echo "false";
+                
             }
 
         }

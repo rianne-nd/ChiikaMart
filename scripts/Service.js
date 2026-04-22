@@ -15,16 +15,6 @@ function addFunc() {
     var province = document.getElementById("txtProvince").value;
     var zipCode = document.getElementById("txtZipCode").value;
 
-    if (firstName === "" || lastName === "" || phoneNumber === "" || email === "" || password === "" || street === "" || barangay === "" || city === "" || province === "" || zipCode === "") {
-            Swal.fire({
-                title: "Missing Information!",
-                text: "Please fill out all required fields.",
-                icon: "warning",
-                confirmButtonText: "OK"
-            });
-            return; 
-        }
-
     if (password !== confirmPassword) {
         Swal.fire({
             title: "Error!",
@@ -55,16 +45,15 @@ function addFunc() {
 
         },
         success: function(returnedData){
-            if (returnedData.trim() === "true") {
+            if (returnedData == "true") {
                 Swal.fire({
                 title: "Success!",
                 text: "User registered successfully!",
                 icon: "success",
                 confirmButtonText: "Click to Reload"
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload(true);
-                    }
+                    redirectFunc(1);
+
                 });
             } else {
                 Swal.fire({
@@ -74,7 +63,7 @@ function addFunc() {
                 });
             }
         },
-        error: function(xhr){ // xhr = XMLHttpRequest
+        error: function(xhr){ 
             alert(xhr.status + " : " + xhr.responseText);
         }
     });
@@ -85,7 +74,7 @@ function redirectFunc(redirectID) {
         window.location.href = "../views/LoginPage.php";
     }
     else if(redirectID == 2) {
-        window.location.href = "../views/Dasboard.php";
+        window.location.href = "../views/Dashboard.php";
     }
     else if(redirectID == 3) {
         window.location.href = "../views/RegistrationPage.php";
@@ -98,6 +87,17 @@ function redirectFunc(redirectID) {
 function loginFunc() {
     var loginEmail = document.getElementById("txtLoginEmail").value;
     var loginPassword = document.getElementById("txtLoginPassword").value;
+    
+    if (loginEmail === "" || loginPassword === "") {
+        Swal.fire({
+            title: "Error!",
+            text: "Please fill in both email and password fields.",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+        return; 
+    }
+    
     $.ajax({
         url: '../controllers/UserController.php', 
         type: 'POST',
@@ -106,16 +106,15 @@ function loginFunc() {
             lPassword: loginPassword
         },
         success: function(returnedData){
-            if (returnedData.trim() === "true") {
+            if (returnedData == "true") {
                 Swal.fire({
                     title: "Success!",
                     text: "User logged in successfully!",
                     icon: "success",
                     confirmButtonText: "OK"
+                }).then(() => {
+                    redirectFunc(4); 
                 });
-                
-
-                redirectFunc(3); // Redirect to dashboard after successful login
             } else {
                 Swal.fire({
                     title: "Error!",
@@ -142,26 +141,19 @@ function updateFunc(userID) {
             uID: userID                
         },
         success: function(returnedData){
-            if (returnedData.trim() === "true") {
-                Swal.fire({
-                title: "Success!",
-                text: "User updated successfully!",
-                icon: "success",
-                confirmButtonText: "Click to Reload"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload(true);
-                    }
-                });
-            } else {
-                Swal.fire({
-                    title: "Database Error!",
-                    text: "Failed to update user.",
-                    icon: "error"
-                });
-            }
+            Swal.fire({
+            title: "Success!",
+            text: "User updated successfully!",
+            icon: "success",
+            confirmButtonText: "Click to Reload"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload(true);
+                }
+            });
+            
         },
-        error: function(xhr){ // xhr = 
+        error: function(xhr){ 
             alert(xhr.status + " : " + xhr.responseText);
         }
     });
@@ -169,30 +161,23 @@ function updateFunc(userID) {
 
 function deleteFunc(userID) {
     $.ajax({
-        url: '../controllers/UserController.php', //
+        url: '../controllers/UserController.php', 
         type: 'POST',
         data: { 
             dID: userID
         },
         success: function(returnedData){
-            if (returnedData.trim() === "true") {
-                Swal.fire({
-                title: "Success!",
-                text: "User deleted successfully!",
-                icon: "success",
-                confirmButtonText: "Click to Reload"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload(true);
-                    }
-                });
-            } else {
-                Swal.fire({
-                    title: "Database Error!",
-                    text: "Failed to delete user.",
-                    icon: "error"
-                });
-            }
+            Swal.fire({
+            title: "Success!",
+            text: "User deleted successfully!",
+            icon: "success",
+            confirmButtonText: "Click to Reload"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload(true);
+                }
+            });
+
         },
         error: function(xhr){  
             alert(xhr.status + " : " + xhr.responseText);
@@ -201,8 +186,8 @@ function deleteFunc(userID) {
 }
 
 
-
-
-    $(document).ready( function () {
+$(document).ready( function () {
+    if ($('#myTable').length) {
         $('#myTable').DataTable();
-    });
+    }
+});

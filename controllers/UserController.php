@@ -1,7 +1,7 @@
 <?php
 
     session_start();
-
+    
     require_once '../bl/userManagement.php';
     
     $usermanagement = new UserManagement();
