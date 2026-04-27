@@ -1,3 +1,4 @@
+// Code below is for allowing only numbers in the input field with id "txtFirstName". It adds an event listener to the input field that triggers the allowOnlyNumber function whenever the user types something. The allowOnlyNumber function uses a regular expression to replace any non-numeric characters with an empty string, effectively allowing only numbers to be entered in the input field.
 const inputNumber = document.getElementById("txtFirstName");
 
 inputNumber.addEventListener("input", function() {
@@ -8,6 +9,7 @@ function allowOnlyNumber(element) {
     element.value = element.value.replace(/[^0-9]/g, "");
 }
 
+// Another input validation are in the Dashboard.php, the input fields have maxlength attribute, which limits the number of characters that can be entered in the input fields. For example, the input field with id "txtFirstName" has a maxlength of 50, which means that users can only enter up to 50 characters in that field. This helps to ensure that the data entered by users is within a reasonable length and prevents excessively long inputs that could potentially cause issues in the database or application.
 
 function addFunc() {
     var firstName = document.getElementById("txtFirstName").value;

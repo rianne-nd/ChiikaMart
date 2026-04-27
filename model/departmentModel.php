@@ -13,7 +13,7 @@
                 // 1. Create the SQL query to insert a new registration record into the database. The query includes placeholders for the first name, last name, created at timestamp, and updated at timestamp. By using placeholders (e.g., :firstName), we can later bind the actual values to these parameters when executing the query, which helps prevent SQL injection attacks and allows for more secure database interactions.
                 $query = "INSERT INTO tbl_registrations 
                 (firstName, lastName, createdAt, updatedAt) 
-                -- To insert the values into the database, we first use parameters (:firstName and :lastName) in the SQL query. Then later on, we will bind the actual values of $firstName and $lastName to these parameters.
+                -- To insert the values into the database, we first use parameters (:firstName and :lastName) in the SQL query. Then later on, we will bind the actual values of $fName and $lName to these parameters.
                 VALUES (:firstName, :lastName, :createdAt, :updatedAt)";
 
                 // 2. Prepare the SQL query using the database connection. This alows us to execute the query with the bound parameters later on. The prepare method is used to create a prepared statement, which can be executed multiple times with different parameter values. This helps improve performance and security when interacting with the database.
@@ -79,6 +79,7 @@
             return $response;
         }
 
+        // Simple summary of the cardDepartment() function: The cardDepartment() function is for retrieving department information along with the total number of users associated with each department. It executes a SQL query that performs a LEFT JOIN between the tbl_departments and tbl_registrations tables, grouping the results by department description. The function returns the result set, which includes the department description and the corresponding count of users for each department, allowing us to display this information in a card format on the frontend.
         public function cardDepartment() {
             $query = "SELECT d.departmentDescription, COUNT( u.registrationID) AS total_users 
             FROM tbl_departments d 
