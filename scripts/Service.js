@@ -185,8 +185,29 @@ function deleteFunc(userID) {
     });
 }
 
+function allowOnlyNumber(element) {
+    element.value = element.value.replace(/[^0-9]/g, "");
+}
+
+const inputPhone = document.getElementById("txtPhoneNumber");
+const inputZipCode = document.getElementById("txtZipCode");
+
+inputPhone.addEventListener("input", function() {
+    allowOnlyNumber(this);
+});
+
+inputZipCode.addEventListener("input", function() {
+    allowOnlyNumber(this);
+});
+
+function allowOnlyNumber(element) {
+    element.value = element.value.replace(/[^0-9]/g, "");
+}
+
 
 $(document).ready( function () {
+    setupInputValidations();
+
     if ($('#myTable').length) {
         $('#myTable').DataTable();
     }

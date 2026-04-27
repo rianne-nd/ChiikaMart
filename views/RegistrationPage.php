@@ -142,17 +142,17 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtFirstname">First Name</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtFirstname" placeholder="Chiika" required type="text"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtFirstname" maxlength="49" placeholder="Chiika" required type="text"/>
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtLastname">Last Name</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtLastname" placeholder="Hachi" required type="text"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtLastname" maxlength="49" placeholder="Hachi" required type="text"/>
                         </div>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtSuffix">Suffix (Optional)</label>
-                        <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtSuffix" placeholder="Jr., III, etc." type="text"/>
+                        <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtSuffix" maxlength="9" placeholder="Jr., III, etc." type="text"/>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -162,23 +162,23 @@
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtPhoneNumber">Phone Number</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPhoneNumber" placeholder="09XX XXX XXXX" required type="tel"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPhoneNumber" maxlength="19" placeholder="09XX XXX XXXX" required type="tel"/>
                         </div>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtEmail">Email Address</label>
-                        <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtEmail" placeholder="hello@chiikamart.com" required type="email"/>
+                        <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtEmail" maxlength="99" placeholder="hello@chiikamart.com" required type="email"/>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtPassword">Password</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPassword" placeholder="********" required type="password"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPassword" maxlength="254" placeholder="********" required type="password"/>
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtConfirmPassword">Confirm</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtConfirmPassword" placeholder="********" required type="password"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtConfirmPassword" maxlength="254" placeholder="********" required type="password"/>
                         </div>
                     </div>
 
@@ -191,26 +191,26 @@
                         <div class="space-y-4">
                             <div class="space-y-1.5">
                                 <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtStreet">Street / House No.</label>
-                                <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtStreet" placeholder="123 Sakura St." required type="text"/>
+                                <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtStreet" maxlength="149" placeholder="123 Sakura St." required type="text"/>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtBarangay">Barangay</label>
-                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtBarangay" placeholder="Barangay 1" required type="text"/>
+                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtBarangay" maxlength="49" placeholder="Barangay 1" required type="text"/>
                                 </div>
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtCity">City / Muni</label>
-                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtCity" placeholder="Metro City" required type="text"/>
+                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtCity" maxlength="49" placeholder="Metro City" required type="text"/>
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtProvince">Province</label>
-                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtProvince" placeholder="Central Province" required type="text"/>
+                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtProvince" maxlength="49" placeholder="Central Province" required type="text"/>
                                 </div>
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtZipCode">Zip Code</label>
-                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtZipCode" placeholder="1000" required type="text"/>
+                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtZipCode" maxlength="9" placeholder="1000" required type="text"/>
                                 </div>
                             </div>
                         </div>

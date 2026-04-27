@@ -49,6 +49,21 @@ require_once '../model/registrationModel.php';
             return $response->fetchAll(PDO::FETCH_ASSOC); 
         }
 
+        public function getCardOrderStatus() {
+            $response = $this->regsModel->cardOrderStatus();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getCardCharacterInventory() {
+            $response = $this->regsModel->cardInventoryCharacter();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getCardProductCollection() {
+            $response = $this->regsModel->cardProductCollection();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         
 
 

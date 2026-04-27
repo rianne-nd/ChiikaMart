@@ -88,6 +88,57 @@
                 return false;
             }
         }
+    public function cardOrderStatus() {
+            try {
+                $query = "SELECT s.statusName, COUNT(o.orderID) AS total_orders
+                FROM tbl_order_statuses s
+                LEFT JOIN tbl_orders o
+                    ON o.statusID = s.statusID
+                GROUP BY s.statusName";
+
+                $response = $this->conn->prepare($query);
+
+                $response->execute();
+                return $response;
+            } catch (PDOException $ex) {
+                error_log("Database error: " . $ex->getMessage());
+                return false;
+            }
+        }
+    public function cardInventoryCharacter() {
+            try {
+                $query = "SELECT c.charName, COUNT(p.productID) AS total_products
+                FROM tbl_characters c
+                LEFT JOIN tbl_products p
+                    ON p.characterID = c.characterID
+                GROUP BY c.charName";
+
+                $response = $this->conn->prepare($query);
+
+                $response->execute();
+                return $response;
+            } catch (PDOException $ex) {
+                error_log("Database error: " . $ex->getMessage());
+                return false;
+            }
+        }
+    public function cardProductCollection() {
+            try {
+                $query = "SELECT c.collectionName, COUNT(p.productID) AS total_products
+                FROM tbl_collections c
+                LEFT JOIN tbl_products p
+                    ON p.collectionID = c.collectionID
+                GROUP BY c.collectionName";
+
+                $response = $this->conn->prepare($query);
+
+                $response->execute();
+                return $response;
+            } catch (PDOException $ex) {
+                error_log("Database error: " . $ex->getMessage());
+                return false;
+            }
+        }
     public function checkLoginDetails ($email) {
         try {
             $query = "SELECT * FROM tbl_users 

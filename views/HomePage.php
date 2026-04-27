@@ -412,7 +412,7 @@
 </h2>
 <p class="text-on-secondary-container mb-8 max-w-lg mx-auto">Get early access to restocks and exclusive digital scrapbook wallpapers for your phone!</p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-<input class="px-6 py-4 rounded-full border-none ring-2 ring-primary/10 focus:ring-secondary w-full sm:w-80 bg-surface-container-lowest/80 backdrop-blur" placeholder="Your email address" type="email"/>
+<input class="px-6 py-4 rounded-full border-none ring-2 ring-primary/10 focus:ring-secondary w-full sm:w-80 bg-surface-container-lowest/80 backdrop-blur" maxlength="99" placeholder="Your email address" type="email"/>
 <button class="px-8 py-4 bg-primary text-on-primary rounded-full font-bold hover:bg-secondary transition-all shadow-md hover:shadow-lg">Subscribe</button>
 </div>
 </div>

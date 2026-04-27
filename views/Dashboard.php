@@ -4,6 +4,9 @@
 
     $usermanagement = new UserManagement();
     $users = $usermanagement->getUser();
+    $orderStatuses = $usermanagement->getCardOrderStatus();
+    $characterInventory = $usermanagement->getCardCharacterInventory();
+    $productCollections = $usermanagement->getCardProductCollection();
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +43,42 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8">
+        <section class="mb-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#4d6076] mb-3">Order Status Tracker</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <?php foreach ($orderStatuses as $status) : ?>
+                    <div class="rounded-2xl bg-[#4d6076] text-white p-5 shadow-md">
+                        <p class="text-sm opacity-90"><?= $status['statusName'] ?></p>
+                        <p class="text-3xl font-extrabold mt-1"><?= $status['total_orders'] ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="mb-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#4d6076] mb-3">Inventory by Character</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <?php foreach ($characterInventory as $character) : ?>
+                    <div class="rounded-2xl bg-[#3d6374] text-white p-5 shadow-md">
+                        <p class="text-sm opacity-90"><?= $character['charName'] ?></p>
+                        <p class="text-3xl font-extrabold mt-1"><?= $character['total_products'] ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="mb-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#4d6076] mb-3">Products per Collection</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <?php foreach ($productCollections as $collection) : ?>
+                    <div class="rounded-2xl bg-[#697985] text-white p-5 shadow-md">
+                        <p class="text-sm opacity-90"><?= $collection['collectionName'] ?></p>
+                        <p class="text-3xl font-extrabold mt-1"><?= $collection['total_products'] ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
         <section class="bg-white border border-[#e7e1dd] rounded-3xl shadow-lg p-6 md:p-8">
             <h2 class="text-2xl md:text-3xl font-bold text-[#4d6076] mb-2">Registered Users</h2>
             <p class="text-sm text-[#41484b] mb-6">Use Update/Delete directly from this dashboard table.</p>
@@ -57,14 +96,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php if (!empty($users)) : ?>
                         <?php foreach ($users as $index => $user) : ?>
                             <tr>
                                 <td><?= $index + 1 ?></td>
-                                <td><?= htmlspecialchars($user['firstName']) ?></td>
-                                <td><?= htmlspecialchars($user['lastName']) ?></td>
-                                <td><?= htmlspecialchars($user['email'] ?? '') ?></td>
-                                <td><?= htmlspecialchars($user['phoneNumber'] ?? '') ?></td>
+                                <td><?= $user['firstName'] ?></td>
+                                <td><?= $user['lastName'] ?></td>
+                                <td><?= $user['email'] ?></td>
+                                <td><?= $user['phoneNumber'] ?></td>
                                 <td>
                                     <div class="flex gap-2">
                                         <button class="px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm" type="button" onclick="updateFunc(<?= $user['userID'] ?>)">Update</button>
@@ -73,7 +111,6 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                    <?php endif; ?>
                     </tbody>
                 </table>
             </div>

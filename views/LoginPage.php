@@ -99,14 +99,14 @@
                 <form class="space-y-6" onsubmit="event.preventDefault(); return false;">
                     <div class="space-y-2">
                         <label class="block text-xs font-bold tracking-widest text-primary uppercase ml-1" for="txtLoginEmail">Email Address</label>
-                        <input id="txtLoginEmail" class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary/50 transition-all text-on-surface placeholder:text-gray-400" placeholder="hello@chiika.love" type="email" required/>
+                        <input id="txtLoginEmail" class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary/50 transition-all text-on-surface placeholder:text-gray-400" maxlength="99" placeholder="hello@chiika.love" type="email" required/>
                     </div>
                     <div class="space-y-2">
                         <div class="flex justify-between items-center">
                             <label class="block text-xs font-bold tracking-widest text-primary uppercase ml-1" for="txtLoginPassword">Password</label>
                             <a class="text-xs font-semibold text-secondary hover:underline underline-offset-4" href="#" onclick="return false;">Forgot?</a>
                         </div>
-                        <input id="txtLoginPassword" class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary/50 transition-all text-on-surface placeholder:text-gray-400" placeholder="********" type="password" required/>
+                        <input id="txtLoginPassword" class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary/50 transition-all text-on-surface placeholder:text-gray-400" maxlength="254" placeholder="********" type="password" required/>
                     </div>
                     <button class="w-full text-white font-bold py-4 rounded-full shadow-lg transform active:scale-95 transition-all text-sm uppercase tracking-widest" style="background-color: #4d6076;" type="button" onclick="loginFunc();">
                         Sign In to Shop
