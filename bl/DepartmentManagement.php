@@ -17,6 +17,11 @@ require_once '../model/departmentModel.php';
             return $response->fetchAll(PDO::FETCH_ASSOC); 
         }
 
+        public function getCardDepartment() {
+            $response = $this->depsModel->cardDepartment();
+            return $response->fetchAll(PDO::FETCH_ASSOC); 
+        }
+
     
     }
 ?>

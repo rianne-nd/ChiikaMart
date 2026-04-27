@@ -44,6 +44,9 @@
 
     <br><br>
     <div class = "row">
+      <input type="text" class="datepicker">
+      
+
         <div class = "col s4 m4 l4">
         </div>
         <div class = "col s4 m4 l4">
@@ -54,17 +57,17 @@
                     </div>
                     <div class="input-field col s6 m6 l6">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="txtFirstname" type="text" class="validate">
-                        <label for="txtFirstname">First Name</label>
+                        <input id="txtFirstName" type="text" class="validate" maxlength="49">
+                        <label for="txtFirstName">First Name</label>
                     </div>
                     <div class="input-field col s6 m6 l6"> 
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="txtLastname" type="text" class="validate">
-                        <label for="txtLastname">Last Name</label>
+                        <input id="txtLastName" type="text" class="validate">
+                        <label for="txtLastName">Last Name</label>
                     </div>
                     <div class="input-field col s12">
                         
-                        <select>
+                        <select id="departmentSelect">
                             <option value="" disabled selected>Choose your option</option>
                             <?php foreach($depts as $dept) : ?>
                                 <option value="<?= $dept['departmentID'] ?>"><?= $dept['departmentDescription'] ?></option>

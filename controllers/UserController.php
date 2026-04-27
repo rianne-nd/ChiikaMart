@@ -18,7 +18,7 @@
    
     if(isset($_POST['fname'], $_POST['lName'])) {
         // Using the object $usermanagement, we call the addUserFunc method, passing the first name and last name received from the POST request as parameters. This method will add a new user to the session array with the provided information. After calling the method, we exit to prevent further execution of the script.
-        $usermanagement->addUserFunc($_POST['fname'], $_POST['lName']);
+        $usermanagement->addUserFunc($_POST['fname'], $_POST['lName'], $_POST['dept'] ?? null);
         exit;
     } else if (isset($_POST['uFName'], $_POST['uLName'], $_POST['uID'])) {
         $usermanagement->updateUserFunc($_POST['uFName'], $_POST['uLName'], $_POST['uID']);

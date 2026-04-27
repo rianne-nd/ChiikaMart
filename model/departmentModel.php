@@ -79,6 +79,20 @@
             return $response;
         }
 
+        public function cardDepartment() {
+            $query = "SELECT d.departmentDescription, COUNT( u.registrationID) AS total_users 
+            FROM tbl_departments d 
+            LEFT JOIN tbl_registrations u
+                ON u.departmentID = d.departmentID
+            GROUP BY d.departmentDescription";
 
+            $response = $this->conn->prepare($query);
+
+            $response->execute();
+            return $response;
+        }
     }
+
+
+
 ?>

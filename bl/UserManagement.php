@@ -36,7 +36,7 @@ require_once '../model/registrationModel.php';
             $this->regsModel = new Registration($db); // class from registrationModel.php, used to handle registration-related operations such as creating new registrations in the database. By passing the database connection ($db) to the constructor of the Registration class, we can ensure that the UserManagement class has access to the necessary database connection for performing registration operations when needed.
         }
 
-        public function addUserFunc($firstName, $lastName): void {
+        public function addUserFunc($firstName, $lastName, $dept = null): void {
             try {
                 // // need to check if array exits before adding to it 
                 // if(isset($_SESSION['userArray'])){
@@ -49,7 +49,7 @@ require_once '../model/registrationModel.php';
                 // }
 
                 // Call the createRegistration method of the $regsModel object to create a new registration record in the database
-                if($this->regsModel->createRegistration($firstName, $lastName)) {
+                if($this->regsModel->createRegistration($firstName, $lastName, $dept)) {
                     echo "User is added successfully.";
                 } else {
                     // If the registration creation fails, return an error response

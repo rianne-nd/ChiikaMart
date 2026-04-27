@@ -1,36 +1,46 @@
-function addFunc() {
-    var firstName = document.getElementById("txtFirstname").value;
-    var lastName = document.getElementById("txtLastname").value;
-    $.ajax({
-        url: '../controllers/UserController.php', 
-        type: 'POST',
-        data: { 
-            fname: firstName,
-            lName: lastName
-        },
-        success: function(returnedData){
-        
-            Swal.fire({
-            title: "Success!",
-            text: "User added successfully!",
-            icon: "success",
-            confirmButtonText: "Click to Reload"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    location.reload(true);
-                }
-        });
+const inputNumber = document.getElementById("txtFirstName");
 
+inputNumber.addEventListener("input", function() {
+    allowOnlyNumber(this);
+});
+
+function allowOnlyNumber(element) {
+    element.value = element.value.replace(/[^0-9]/g, "");
+}
+
+
+function addFunc() {
+    var firstName = document.getElementById("txtFirstName").value;
+    var lastName = document.getElementById("txtLastName").value;
+    var departmentValue = document.getElementById("departmentSelect").value;
+    alert(departmentValue);
+
+    if (firstName.length < 5) {
+        return;
+    }
+
+
+    $.ajax({
+        url: "../controllers/UserController.php",
+        type: "POST",
+        data: {
+            fname: firstName,
+            lName: lastName,
+            dept: departmentValue
         },
-        error: function(xhr){ // xhr = XMLHttpRequest
+        success: function(returnedData) {
+            alert(returnedData);
+        },
+
+        error: function(xhr) {
             alert(xhr.status + " : " + xhr.responseText);
         }
     });
 }
 
 function updateFunc(userID) {
-    var firstName = document.getElementById("txtFirstname").value;
-    var lastName = document.getElementById("txtLastname").value;
+    var firstName = document.getElementById("txtFirstName").value;
+    var lastName = document.getElementById("txtLastName").value;
     $.ajax({
         url: '../controllers/UserController.php',
         type: 'POST',
@@ -88,8 +98,8 @@ function deleteFunc(userID) {
 }
 
 function changeFirstName() {
-    var firstNameValue = document.getElementById("txtFirstname").value;
-    var LastnameValue = document.getElementById("txtLastname").value;
+    var firstNameValue = document.getElementById("txtFirstName").value;
+    var LastnameValue = document.getElementById("txtLastName").value;
     $.ajax({
         url: '../controllers/UserController.php', 
         type: 'POST',
@@ -165,4 +175,9 @@ function loginFunc() {
 $(document).ready(function(){
     $('#myTable').DataTable();
     $('select').formSelect();
+    $('.datepicker').datepicker({
+        maxDate: new Date(),
+        format: 'yyyy-mm-dd',
+        autoClose: true
+    });
 });

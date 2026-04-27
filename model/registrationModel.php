@@ -14,7 +14,6 @@
                 // 1. Create the SQL query to insert a new registration record into the database. The query includes placeholders for the first name, last name, department, created at timestamp, and updated at timestamp. By using placeholders (e.g., :firstName), we can later bind the actual values to these parameters when executing the query, which helps prevent SQL injection attacks and allows for more secure database interactions.
                 $query = "INSERT INTO tbl_registrations 
                 (firstName, lastName, department, createdAt, updatedAt) 
-                -- To insert the values into the database, we first use parameters (:firstName and :lastName) in the SQL query. Then later on, we will bind the actual values of $firstName and $lastName to these parameters.
                 VALUES (:firstName, :lastName, :department, :createdAt, :updatedAt)";
 
                 // 2. Prepare the SQL query using the database connection. This alows us to execute the query with the bound parameters later on. The prepare method is used to create a prepared statement, which can be executed multiple times with different parameter values. This helps improve performance and security when interacting with the database.
@@ -25,14 +24,14 @@
                 $password_check = password_verify($fName, $password_hash);
 
                 // Change based on use, just a sample. Add to login function later on.
-                $selectQuery = "SELECT * FROM TBL WHERE EMAIL = EMAIL";
-                if($selectQuery) {
-                    $password_check = password_verify($inputted_pass, $selectQuery.password);
-                    if( $password_check ) {
-                    //bahala na kayo
-                    }
-                    //bahala
-                }
+                // $selectQuery = "SELECT * FROM TBL WHERE EMAIL = EMAIL";
+                // if($selectQuery) {
+                //     $password_check = password_verify($inputted_pass, $selectQuery.password);
+                //     if( $password_check ) {
+                //     //bahala na kayo
+                //     }
+                //     //bahala
+                // }
 
 
                 // Workaround since createdAt and updatedAt wont work.
