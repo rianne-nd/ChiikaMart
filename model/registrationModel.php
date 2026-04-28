@@ -139,6 +139,241 @@
                 return false;
             }
         }
+
+    public function totalSalesRevenue() {
+        try {
+            $query = "SELECT COALESCE(SUM(totalAmount), 0) AS total_sales FROM tbl_orders";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function totalOrders() {
+        try {
+            $query = "SELECT COUNT(orderID) AS total_orders FROM tbl_orders";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function lowStockCount() {
+        try {
+            $query = "SELECT COUNT(productID) AS low_stock_count
+                FROM tbl_products
+                WHERE stockQuantity < 5";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function outOfStockCount() {
+        try {
+            $query = "SELECT COUNT(productID) AS out_stock_count
+                FROM tbl_products
+                WHERE stockQuantity = 0";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function totalUsers() {
+        try {
+            $query = "SELECT COUNT(userID) AS total_users FROM tbl_users";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function mostWishlisted() {
+        try {
+            $query = "SELECT productName, wishlist_count FROM (
+                SELECT p.productName, COUNT(w.wishlistID) AS wishlist_count
+                FROM tbl_products p
+                LEFT JOIN tbl_wishlists w
+                    ON p.productID = w.productID
+                GROUP BY p.productID, p.productName
+                ORDER BY wishlist_count DESC
+                LIMIT 1
+            ) AS ranked
+            UNION ALL SELECT 'No Data', 0
+            LIMIT 1";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function averageRating() {
+        try {
+            $query = "SELECT COALESCE(AVG(ratingValue), 0) AS avg_rating
+                FROM tbl_reviews
+                WHERE isApproved = 1";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function salesByMonth() {
+        try {
+            $query = "SELECT DATE_FORMAT(orderDate, '%Y-%m') AS order_month,
+                COALESCE(SUM(totalAmount), 0) AS total_revenue
+                FROM tbl_orders
+                GROUP BY order_month
+                ORDER BY order_month";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function registrationsByMonth() {
+        try {
+            $query = "SELECT DATE_FORMAT(createdAt, '%Y-%m') AS reg_month,
+                COUNT(userID) AS total_users
+                FROM tbl_users
+                GROUP BY reg_month
+                ORDER BY reg_month";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function topSellingProducts() {
+        try {
+            $query = "SELECT p.productName, COALESCE(SUM(oi.quantity), 0) AS total_sold
+                FROM tbl_order_items oi
+                INNER JOIN tbl_products p
+                    ON p.productID = oi.productID
+                GROUP BY p.productID, p.productName
+                ORDER BY total_sold DESC
+                LIMIT 5";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function revenueByCharacter() {
+        try {
+            $query = "SELECT c.charName,
+                COALESCE(SUM(oi.quantity * oi.priceAtPurchase), 0) AS total_revenue
+                FROM tbl_order_items oi
+                INNER JOIN tbl_products p
+                    ON p.productID = oi.productID
+                INNER JOIN tbl_characters c
+                    ON c.characterID = p.characterID
+                GROUP BY c.characterID, c.charName
+                ORDER BY total_revenue DESC";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function revenueByCollection() {
+        try {
+            $query = "SELECT c.collectionName,
+                COALESCE(SUM(oi.quantity * oi.priceAtPurchase), 0) AS total_revenue
+                FROM tbl_order_items oi
+                INNER JOIN tbl_products p
+                    ON p.productID = oi.productID
+                INNER JOIN tbl_collections c
+                    ON c.collectionID = p.collectionID
+                GROUP BY c.collectionID, c.collectionName
+                ORDER BY total_revenue DESC";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function reviewStarDistribution() {
+        try {
+            $query = "SELECT ratingValue, COUNT(reviewID) AS total_reviews
+                FROM tbl_reviews
+                WHERE isApproved = 1
+                GROUP BY ratingValue
+                ORDER BY ratingValue";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function lowestStockWatchlist() {
+        try {
+            $query = "SELECT productName, stockQuantity
+                FROM tbl_products
+                ORDER BY stockQuantity ASC
+                LIMIT 5";
+
+            $response = $this->conn->prepare($query);
+            $response->execute();
+            return $response;
+        } catch (PDOException $ex) {
+            error_log("Database error: " . $ex->getMessage());
+            return false;
+        }
+    }
     public function checkLoginDetails ($email) {
         try {
             $query = "SELECT * FROM tbl_users 

@@ -1,3 +1,25 @@
+const inputPhone = document.getElementById("txtPhoneNumber");
+const inputZipCode = document.getElementById("txtZipCode");
+
+// "If inputPhone exists on this page, THEN add the listener"
+if (inputPhone) {
+    inputPhone.addEventListener("input", function() {
+        allowOnlyNumber(this);
+    });
+}
+
+// "If inputZipCode exists on this page, THEN add the listener"
+if (inputZipCode) {
+    inputZipCode.addEventListener("input", function() {
+        allowOnlyNumber(this);
+    });
+}
+
+function allowOnlyNumber(element) {
+    element.value = element.value.replace(/[^0-9]/g, "");
+}
+
+
 function addFunc() {
     var firstName = document.getElementById("txtFirstname").value;
     var lastName = document.getElementById("txtLastname").value;
@@ -188,26 +210,7 @@ function deleteFunc(userID) {
 function allowOnlyNumber(element) {
     element.value = element.value.replace(/[^0-9]/g, "");
 }
-
-const inputPhone = document.getElementById("txtPhoneNumber");
-const inputZipCode = document.getElementById("txtZipCode");
-
-inputPhone.addEventListener("input", function() {
-    allowOnlyNumber(this);
-});
-
-inputZipCode.addEventListener("input", function() {
-    allowOnlyNumber(this);
-});
-
-function allowOnlyNumber(element) {
-    element.value = element.value.replace(/[^0-9]/g, "");
-}
-
-
 $(document).ready( function () {
-    setupInputValidations();
-
     if ($('#myTable').length) {
         $('#myTable').DataTable();
     }

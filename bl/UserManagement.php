@@ -64,6 +64,76 @@ require_once '../model/registrationModel.php';
             return $response->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function getTotalSalesRevenue() {
+            $response = $this->regsModel->totalSalesRevenue();
+            return $response->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getTotalOrders() {
+            $response = $this->regsModel->totalOrders();
+            return $response->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getLowStockCount() {
+            $response = $this->regsModel->lowStockCount();
+            return $response->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getOutOfStockCount() {
+            $response = $this->regsModel->outOfStockCount();
+            return $response->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getTotalUsers() {
+            $response = $this->regsModel->totalUsers();
+            return $response->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getMostWishlisted() {
+            $response = $this->regsModel->mostWishlisted();
+            return $response->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getAverageRating() {
+            $response = $this->regsModel->averageRating();
+            return $response->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function getSalesByMonth() {
+            $response = $this->regsModel->salesByMonth();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getRegistrationsByMonth() {
+            $response = $this->regsModel->registrationsByMonth();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getTopSellingProducts() {
+            $response = $this->regsModel->topSellingProducts();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getRevenueByCharacter() {
+            $response = $this->regsModel->revenueByCharacter();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getRevenueByCollection() {
+            $response = $this->regsModel->revenueByCollection();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getReviewStarDistribution() {
+            $response = $this->regsModel->reviewStarDistribution();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getLowestStockWatchlist() {
+            $response = $this->regsModel->lowestStockWatchlist();
+            return $response->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         
 
 

@@ -31,8 +31,17 @@ ChiikaMart/
 ├── model/                       # Models & DB Config
 │   ├── database.php             # Establishes the PDO database connection
 │   └── registrationModel.php    # Handles SQL queries (INSERT, SELECT, UPDATE, DELETE)
+├── Notes/
+│   └── Week10Notes.md            # Chart.js lecture notes and setup steps
+├── ResourcesForProject/          # Chart.js reference notes and SQL plan
+│   ├── App Dev.md
+│   ├── SQLCode.md
+│   ├── bar.md
+│   ├── line.md
+│   └── doughnut.md
 ├── scripts/
-│   └── Service.js               # Client-side JavaScript (AJAX, SweetAlerts, Validation)
+│   ├── Service.js               # Client-side JavaScript (AJAX, SweetAlerts, Validation)
+│   └── DashboardService.js      # Chart.js rendering for the dashboard
 ├── vendor/                      # Composer dependencies (PHPMailer, etc.)
 ├── views/
 │   ├── Dashboard.php            # Admin dashboard view with charts and user tables
@@ -59,8 +68,22 @@ This file contains the core logic inside the `UserManagement` class. Think of it
 | `getUser()` | — | Fetches and returns all registered users natively from the `tbl_users` database table. |
 | `loginUserFunc()` | `$email`, `$password` | Searches the database for the given email, and utilizes `password_verify()` to confirm the string matches the hash stored in the DB. |
 | `getCardOrderStatus()` | — | Fetches order statuses from `tbl_order_statuses` and `tbl_orders` for the dashboard chart. |
-| `getCardCharacterInventory()` | — | Fetches product character inventory from `tbl_characters` and `tbl_products` for the dashboard chart. |
-| `getCardProductCollection()` | — | Fetches collection stats from `tbl_collections` and `tbl_products` for the dashboard chart. |
+| `getCardCharacterInventory()` | — | Fetches product character inventory from `tbl_characters` and `tbl_products`. |
+| `getCardProductCollection()` | — | Fetches collection stats from `tbl_collections` and `tbl_products`. |
+| `getTotalSalesRevenue()` | — | Uses `SUM(totalAmount)` from `tbl_orders` to calculate total shop revenue. |
+| `getTotalOrders()` | — | Uses `COUNT(orderID)` from `tbl_orders` to calculate total order volume. |
+| `getLowStockCount()` | — | Counts products where `stockQuantity < 5`. |
+| `getOutOfStockCount()` | — | Counts products where `stockQuantity = 0`. |
+| `getTotalUsers()` | — | Counts all users from `tbl_users`. |
+| `getMostWishlisted()` | — | Finds the most wishlisted product with its total wishlist count. |
+| `getAverageRating()` | — | Calculates average rating from approved reviews in `tbl_reviews`. |
+| `getSalesByMonth()` | — | Returns monthly revenue data for the sales trend chart. |
+| `getRegistrationsByMonth()` | — | Returns monthly user registrations for the trend chart. |
+| `getTopSellingProducts()` | — | Returns the top 5 products by total units sold. |
+| `getRevenueByCharacter()` | — | Aggregates revenue grouped by character. |
+| `getRevenueByCollection()` | — | Aggregates revenue grouped by collection. |
+| `getReviewStarDistribution()` | — | Counts how many reviews exist per star rating. |
+| `getLowestStockWatchlist()` | — | Returns the 5 products closest to zero stock. |
 
 ---
 
@@ -87,6 +110,20 @@ This file handles the exact native SQL queries and database manipulation that ta
 | `readRegistration()` | — | Prepares a `SELECT * FROM tbl_users` statement to grab all registered users. |
 | `checkLoginDetails()` | `$email` | Prepares a secure `SELECT * FROM tbl_users WHERE email = :email`. Fetches the result to compare passwords during login. |
 | Dashboard Chart Functions | — | `cardOrderStatus()`, `cardInventoryCharacter()`, and `cardProductCollection()` run specific `LEFT JOIN` counting queries to fuel the admin dashboard charts. |
+| `totalSalesRevenue()` | — | `SUM(totalAmount)` from `tbl_orders` for total revenue. |
+| `totalOrders()` | — | `COUNT(orderID)` from `tbl_orders` for overall order volume. |
+| `lowStockCount()` | — | Counts products where `stockQuantity < 5`. |
+| `outOfStockCount()` | — | Counts products where `stockQuantity = 0`. |
+| `totalUsers()` | — | Counts all users in `tbl_users`. |
+| `mostWishlisted()` | — | Finds the most wishlisted product using `tbl_wishlists` and `tbl_products`. |
+| `averageRating()` | — | Averages approved ratings from `tbl_reviews`. |
+| `salesByMonth()` | — | Monthly revenue grouping using `DATE_FORMAT(orderDate, '%Y-%m')`. |
+| `registrationsByMonth()` | — | Monthly registrations using `DATE_FORMAT(createdAt, '%Y-%m')`. |
+| `topSellingProducts()` | — | Top 5 products by total quantity sold using `tbl_order_items`. |
+| `revenueByCharacter()` | — | Revenue totals grouped by character. |
+| `revenueByCollection()` | — | Revenue totals grouped by collection. |
+| `reviewStarDistribution()` | — | Count of reviews per rating value. |
+| `lowestStockWatchlist()` | — | 5 products with the lowest stock. |
 
 ---
 
@@ -126,6 +163,7 @@ What external tools are we using to make this project look and feel modern?
 | [jQuery](https://jquery.com/) | 3.7.1 | Makes writing AJAX (background server requests) incredibly easy. |
 | [DataTables](https://datatables.net/) | 2.3.7 | Adds magic search bars, numbers, and sorting to our user table. |
 | [SweetAlert2](https://sweetalert2.github.io/) | 11 | Beautiful Success/Error dialog popups. |
+| [Chart.js](https://www.chartjs.org/) | CDN | Renders the dashboard charts (bar, line, doughnut). |
 | [Tailwind CSS](https://tailwindcss.com/) | CDN | A utility-first CSS framework for rapid UI styling. |
 
 ---
@@ -149,3 +187,18 @@ Let's trace the exact lifecycle of what happens when you register a brand new us
    - `views/LoginPage.php` for login
    - `views/RegistrationPage.php` for registration
    - `views/HomePage.php` and `views/Dashboard.php` after navigation
+
+---
+
+## 📊 Dashboard Chart Data Flow (Chart.js)
+
+1. **Dashboard.php loads the data**
+    The dashboard calls `UserManagement` methods that return aggregated stats (totals, counts, and grouped results).
+2. **PHP converts DB rows into arrays**
+    It uses `array_column()` to extract chart labels and dataset arrays.
+3. **PHP passes arrays to JavaScript**
+    It embeds `window.*` objects with `json_encode()` (e.g., `window.salesOverTimeData`).
+4. **DashboardService.js renders the charts**
+    The dashboard-only script reads the `window.*` objects and creates Chart.js charts on matching `<canvas>` elements.
+5. **Future improvement**
+    The chart logic can be moved into a dedicated dashboard JS file without changing the PHP data flow.
