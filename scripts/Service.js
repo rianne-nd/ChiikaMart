@@ -1,4 +1,51 @@
-// Code below is for allowing only numbers in the input field with id "txtFirstName". It adds an event listener to the input field that triggers the allowOnlyNumber function whenever the user types something. The allowOnlyNumber function uses a regular expression to replace any non-numeric characters with an empty string, effectively allowing only numbers to be entered in the input field.
+  const ctx = document.getElementById('barChart');
+  const lineChart = document.getElementById('lineChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+        // The labels and data for the bar chart are dynamically generated from the PHP variables $labels and $data, which are passed to JavaScript using json_encode(). This allows us 
+      labels: window.barData.labels,
+      datasets: [{
+        label: '# of Votes',
+        data: window.barData.data,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  
+    new Chart(lineChart, {
+    type: 'line',
+    data: {
+        // The labels and data for the bar chart are dynamically generated from the PHP variables $labels and $data, which are passed to JavaScript using json_encode(). This allows us 
+      labels: window.barData.labels,
+      datasets: [{
+        label: '# of Votes',
+        data: [65, 59, 80, 81, 56, 55, 40],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+    
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
 const inputNumber = document.getElementById("txtFirstName");
 
 inputNumber.addEventListener("input", function() {
@@ -173,6 +220,7 @@ function loginFunc() {
         }   
     });    
 }
+
 
 $(document).ready(function(){
     $('#myTable').DataTable();
