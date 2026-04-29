@@ -6,6 +6,7 @@
 
     // require_once is used to include the UserManagement class from the specified file path. This allows the UserController to create an instance of the UserManagement class and call its methods to manage user data stored in PHP sessions. The require_once statement ensures that the file is included only once, preventing potential issues with multiple inclusions.
     require_once '../bl/userManagement.php';
+    require_once '../helper/sendEmail.php';
     
     // Create an instance of the UserManagement class, which will be used to call its methods for managing user data stored in PHP sessions. This instance allows the UserController to interact with the user management functionality provided by the UserManagement class, such as adding, updating, deleting, and retrieving users, as well as handling user login operations.
     $usermanagement = new UserManagement();
@@ -18,7 +19,39 @@
    
     if(isset($_POST['fname'], $_POST['lName'])) {
         // Using the object $usermanagement, we call the addUserFunc method, passing the first name and last name received from the POST request as parameters. This method will add a new user to the session array with the provided information. After calling the method, we exit to prevent further execution of the script.
-        $usermanagement->addUserFunc($_POST['fname'], $_POST['lName'], $_POST['dept'] ?? null);
+        // $usermanagement->addUserFunc($_POST['fname'], $_POST['lName'], $_POST['dept'] ?? null);
+        // exit;
+
+
+
+        $name = htmlspecialchars("Amado Sapit");
+        $email = filter_var("amadosapit14@gmail.com", FILTER_VALIDATE_EMAIL);
+        $message = htmlspecialchars("hellllloooooooooooo");
+
+        if (!$email) {
+            die("Invalid email");
+        }
+
+        $body = "
+            <h3>New Message</h3>
+            <p><strong>Name:</strong> $name</p>
+            <p><strong>Email:</strong> $email</p>
+            <p><strong>Message:</strong><br>$message</p>
+        ";
+
+        $result = sendEmail(
+            "amadosapit14@gmail.com",
+            "Admin",
+            "Contact Form Submission",
+            $body
+        );
+
+        if ($result === true) {
+            echo "Email sent successfully!";
+        } else {
+            echo "Failed: $result";
+        }
+
         exit;
     } else if (isset($_POST['uFName'], $_POST['uLName'], $_POST['uID'])) {
         $usermanagement->updateUserFunc($_POST['uFName'], $_POST['uLName'], $_POST['uID']);
