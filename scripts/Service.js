@@ -47,6 +47,43 @@ function addFunc() {
         return; 
     }
 
+    if (birthday !== "") {
+        var selectedDate = new Date(birthday);
+        var today = new Date();
+        
+       today.setHours(0, 0, 0, 0);
+
+        if (selectedDate > today) {
+            Swal.fire({
+                title: "Error!",
+                text: "Birthday cannot be a future date. Please select a valid date.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+            return; 
+        }
+    }
+
+    if (!phoneNumber.startsWith("09")) {
+        Swal.fire({
+            title: "Error!",
+            text: "Please enter a valid 11-digit mobile number starting with 09.",
+            icon: "warning",
+            confirmButtonText: "OK"
+        });
+        return;
+    }
+
+    if (password.length < 8) {
+        Swal.fire({
+            title: "Error!",
+            text: "For your security, passwords must be at least 8 characters long.",
+            icon: "warning",
+            confirmButtonText: "OK"
+        });
+        return;
+    }
+
 
     $.ajax({
         url: '../controllers/UserController.php', 

@@ -162,7 +162,7 @@
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtPhoneNumber">Phone Number</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPhoneNumber" maxlength="19" placeholder="09XX XXX XXXX" required type="tel"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPhoneNumber" maxlength="11" placeholder="09XX XXX XXXX" required type="tel"/>
                         </div>
                     </div>
 
@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtZipCode">Zip Code</label>
-                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtZipCode" maxlength="9" placeholder="1000" required type="text"/>
+                                    <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtZipCode" maxlength="4" placeholder="1000" required type="text"/>
                                 </div>
                             </div>
                         </div>
