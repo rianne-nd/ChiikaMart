@@ -143,42 +143,50 @@
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtFirstname">First Name</label>
                             <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtFirstname" maxlength="49" placeholder="Chiika" required type="text"/>
+                            <p class="text-[10px] text-outline ml-1">* Required</p>
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtLastname">Last Name</label>
                             <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtLastname" maxlength="49" placeholder="Hachi" required type="text"/>
+                            <p class="text-[10px] text-outline ml-1">* Required</p>
                         </div>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtSuffix">Suffix (Optional)</label>
                         <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtSuffix" maxlength="9" placeholder="Jr., III, etc." type="text"/>
+                        <p class="text-[10px] text-outline ml-1">* Optional</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtBirthday">Birthday</label>
                             <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtBirthday" type="date"/>
+                            <p class="text-[10px] text-outline ml-1">* Optional</p>
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtPhoneNumber">Phone Number</label>
                             <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPhoneNumber" maxlength="11" placeholder="09XX XXX XXXX" required type="tel"/>
+                            <p class="text-[10px] text-outline ml-1">* Required</p>
                         </div>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtEmail">Email Address</label>
                         <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtEmail" maxlength="99" placeholder="hello@chiikamart.com" required type="email"/>
+                        <p class="text-[10px] text-outline ml-1">* Required</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtPassword">Password</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPassword" maxlength="254" placeholder="********" required type="password"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPassword" minlength="9" maxlength="254" placeholder="********" required type="password"/>
+                            <p class="text-[10px] text-outline ml-1">* Required, must be more than 8 characters</p>
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtConfirmPassword">Confirm</label>
                             <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtConfirmPassword" maxlength="254" placeholder="********" required type="password"/>
+                            <p class="text-[10px] text-outline ml-1">* Required</p>
                         </div>
                     </div>
 
@@ -192,25 +200,30 @@
                             <div class="space-y-1.5">
                                 <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtStreet">Street / House No.</label>
                                 <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtStreet" maxlength="149" placeholder="123 Sakura St." required type="text"/>
+                                <p class="text-[10px] text-outline ml-1">* Required</p>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtBarangay">Barangay</label>
                                     <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtBarangay" maxlength="49" placeholder="Barangay 1" required type="text"/>
+                                    <p class="text-[10px] text-outline ml-1">* Required</p>
                                 </div>
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtCity">City / Muni</label>
                                     <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtCity" maxlength="49" placeholder="Metro City" required type="text"/>
+                                    <p class="text-[10px] text-outline ml-1">* Required</p>
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtProvince">Province</label>
                                     <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtProvince" maxlength="49" placeholder="Central Province" required type="text"/>
+                                    <p class="text-[10px] text-outline ml-1">* Required</p>
                                 </div>
                                 <div class="space-y-1.5">
                                     <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtZipCode">Zip Code</label>
                                     <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtZipCode" maxlength="4" placeholder="1000" required type="text"/>
+                                    <p class="text-[10px] text-outline ml-1">* Required</p>
                                 </div>
                             </div>
                         </div>
