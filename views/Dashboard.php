@@ -93,8 +93,8 @@
         }
     </script>
 </head>
-<body class="bg-surface-bright font-body text-on-surface flex h-screen overflow-hidden selection:bg-secondary-container selection:text-on-secondary-container">
-    <nav class="hidden md:flex h-screen w-64 fixed left-0 top-0 z-50 border-r-2 border-dashed border-[#3d6374]/20 bg-[#f3ede9] text-[#4d6076] font-['Plus_Jakarta_Sans'] antialiased flex flex-col py-8 gap-2">
+<body class="bg-surface-bright font-body text-on-surface flex min-h-screen overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container">
+    <nav class="hidden md:flex min-h-screen w-64 fixed left-0 top-0 z-50 border-r-2 border-dashed border-[#3d6374]/20 bg-[#f3ede9] text-[#4d6076] font-['Plus_Jakarta_Sans'] antialiased flex flex-col py-8 gap-2">
         <div class="px-8 mt-2 mb-8 flex flex-col items-start gap-2">
             <div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center overflow-hidden border-2 border-dashed border-secondary/30 rotate-[-2deg]">
                 <span class="material-symbols-outlined text-3xl text-primary" data-icon="storefront">storefront</span>
@@ -131,7 +131,7 @@
         </div>
     </nav>
 
-    <div class="flex-1 md:ml-64 flex flex-col h-screen relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0iIzQxNDg0YiIgZmlsbC1vcGFjaXR5PSIwLjA1Ii8+PC9zdmc+')]">
+    <div class="flex-1 min-w-0 md:pl-64 flex flex-col min-h-screen relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0iIzQxNDg0YiIgZmlsbC1vcGFjaXR5PSIwLjA1Ii8+PC9zdmc+')]">
         <header class="docked full-width top-0 sticky z-40 border-b-2 border-dashed border-[#3d6374]/20 shadow-[0px_20px_40px_rgba(47,65,86,0.06)] bg-[#fef8f4]/80 backdrop-blur-md text-[#4d6076] font-['Plus_Jakarta_Sans'] flex justify-between items-center px-8 h-20 w-full">
             <div class="flex items-center gap-4 w-1/3">
                 <div class="relative w-full max-w-md hidden md:block">
@@ -140,22 +140,10 @@
                 </div>
                 <h1 class="text-xl font-bold tracking-tight text-[#2F4156] md:hidden">ChiikaMart</h1>
             </div>
-            <div class="flex items-center gap-6">
-                <button class="hover:bg-[#f3ede9]/50 transition-all active:scale-95 duration-200 p-2 rounded-full relative text-on-surface-variant">
-                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                    <span class="absolute top-1 right-2 w-2 h-2 bg-error rounded-full"></span>
-                </button>
-                <button class="hover:bg-[#f3ede9]/50 transition-all active:scale-95 duration-200 p-2 rounded-full text-on-surface-variant">
-                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
-                </button>
-                <div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
-                <div class="w-10 h-10 rounded-full bg-secondary-container border-2 border-dashed border-secondary/50 overflow-hidden flex items-center justify-center cursor-pointer hover:rotate-6 transition-transform">
-                    <img alt="Admin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2rpYOXoR2E6Vce2IoSb4y0FJ9ToH2MrXrEQ_yzkqFh-ZbbBHKeJkP1o78AUu2h_JOyeuAm_N5KkoHTlqHCTH5qHBIhBPtuvi8ZxTJYm8NurMHNgAuGxtSa0AnZ8Qy5cuVk85Zew5HDdbhdOFhKZxSy-PhISu4SFfFnMHCd6Ta0G1fzT3E3Sm_MV9R08hpddF_mK8GxAYTy3bQ4PrlOMD2mWF9N_bRDoSEipJuWmQ5ed5Av7p8FXrhHgi_0jKpRPX5G1yf6a1rS3U"/>
-                </div>
-            </div>
+            
         </header>
 
-        <main class="flex-1 overflow-y-auto p-6 md:p-10 lg:p-12 space-y-12">
+        <main class="flex-1 min-w-0 p-6 md:p-10 lg:p-12 space-y-12">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-4">
                 <div class="relative">
                     <div class="washi-tape"></div>
@@ -170,7 +158,7 @@
             </div>
 
             <div class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
                     <div class="bg-surface-container-lowest rounded-3xl p-6 relative shadow-[0px_20px_40px_rgba(47,65,86,0.04)] overflow-hidden group">
                         <div class="absolute -right-6 -top-6 w-24 h-24 bg-primary-fixed/20 rounded-full blur-2xl group-hover:bg-primary-fixed/40 transition-all"></div>
                         <div class="flex justify-between items-start mb-4 relative z-10">
@@ -208,7 +196,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="bg-surface-container-lowest rounded-3xl p-6 relative shadow-[0px_20px_40px_rgba(47,65,86,0.04)] border border-surface-variant/50">
                         <div class="flex items-center gap-4 mb-2">
                             <span class="material-symbols-outlined text-tertiary" data-icon="favorite">favorite</span>
@@ -235,6 +223,21 @@
                         <h3 class="text-3xl font-extrabold text-on-error-container mt-2"><?= $outOfStock['out_stock_count'] ?? 0 ?> <span class="text-sm font-medium opacity-70">Items at 0</span></h3>
                     </div>
                 </div>
+
+                <div class="bg-surface-container-lowest rounded-3xl p-6 relative shadow-[0px_20px_40px_rgba(47,65,86,0.04)] border border-surface-variant/50">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="material-symbols-outlined text-secondary" data-icon="local_shipping">local_shipping</span>
+                        <h4 class="font-bold text-[#2F4156]">Order Status</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                        <?php foreach($orderStatuses as $index => $status) : ?>
+                        <div class="bg-surface-container-highest rounded-2xl p-4 border border-outline-variant/40">
+                            <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant/80 mb-1"><?= htmlspecialchars($status['statusName']) ?> Orders</p>
+                            <h3 class="text-2xl font-extrabold text-on-primary-fixed"><?= $status['total_orders'] ?></h3>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
 
             <section class="space-y-8 mt-8">
@@ -249,7 +252,7 @@
                     <div class="chart-container"><canvas id="chartSalesOverTime"></canvas></div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
                     <div class="bg-surface-container-lowest rounded-xl relative shadow-[0px_20px_40px_rgba(47,65,86,0.04)] overflow-hidden border-2 border-dashed border-outline-variant/20 p-6">
                         <div class="washi-tape right"></div>
                         <h4 class="font-bold text-[#2F4156] mb-4">User Registration Trend</h4>
@@ -262,7 +265,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                     <div class="bg-surface-container-lowest rounded-xl relative shadow-[0px_20px_40px_rgba(47,65,86,0.04)] overflow-hidden border-2 border-dashed border-outline-variant/20 p-6">
                         <div class="washi-tape"></div>
                         <h4 class="font-bold text-[#2F4156] mb-4">Revenue by Character</h4>

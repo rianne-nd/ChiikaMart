@@ -140,13 +140,12 @@ require_once '../model/registrationModel.php';
         public function loginUserFunc($email, $password) {
             $user = $this->regsModel->checkLoginDetails($email);
 
-            $verifyPassword = password_verify($password, $user['password']);
-            if($verifyPassword) {
-                echo "true";
-            } else {
+            if (!$user || !password_verify($password, $user['password'])) {
                 echo "false";
-                
+                return;
             }
+
+            echo ($user['roleID'] == 1) ? "admin" : "customer";
 
         }
     }

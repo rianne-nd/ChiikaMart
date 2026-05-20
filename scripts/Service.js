@@ -1,5 +1,26 @@
+const inputFirstName = document.getElementById("txtFirstname");
+const inputLastName = document.getElementById("txtLastname");
+const inputSuffix = document.getElementById("txtSuffix");
 const inputPhone = document.getElementById("txtPhoneNumber");
 const inputZipCode = document.getElementById("txtZipCode");
+
+if (inputFirstName) {
+    inputFirstName.addEventListener("input", function() {
+        allowOnlyLetters(this);
+    });
+}
+
+if (inputLastName) {
+    inputLastName.addEventListener("input", function() {
+        allowOnlyLetters(this);
+    });
+}
+
+if (inputSuffix) {
+    inputSuffix.addEventListener("input", function() {
+        allowSuffixInput(this);
+    });
+}
 
 // "If inputPhone exists on this page, THEN add the listener"
 if (inputPhone) {
@@ -84,6 +105,28 @@ function addFunc() {
         return;
     }
 
+    var uppercasePattern = /[A-Z]/;
+    var uniqueCharPattern = /[^A-Za-z0-9]/;
+    
+    if (!uppercasePattern.test(password) || !uniqueCharPattern.test(password)) {
+        Swal.fire({
+            title: "Error!",
+            text: "Password must contain at least one uppercase letter and one unique/special character.",
+            icon: "warning",
+            confirmButtonText: "OK"
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: 'Please wait...',
+        text: 'Creating your account and sending confirmation email...',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     $.ajax({
         url: '../controllers/UserController.php', 
@@ -123,6 +166,7 @@ function addFunc() {
             }
         },
         error: function(xhr){ 
+            Swal.close();
             alert(xhr.status + " : " + xhr.responseText);
         }
     });
@@ -157,6 +201,16 @@ function loginFunc() {
         return; 
     }
     
+    Swal.fire({
+        title: 'Please wait...',
+        text: 'Verifying your credentials...',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
     $.ajax({
         url: '../controllers/UserController.php', 
         type: 'POST',
@@ -165,29 +219,38 @@ function loginFunc() {
             lPassword: loginPassword
         },
         success: function(returnedData){
-            if (returnedData == "true") {
+            // 1. Check if the returned data is "admin"
+            if (returnedData.trim() === "admin") {
+                Swal.fire({
+                    title: "Welcome Admin!",
+                    text: "Logging into the Admin Dashboard...",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    redirectFunc(2); // 2 goes to Dashboard.php
+                });
+            } 
+            // 2. Check if the returned data is "customer"
+            else if (returnedData.trim() === "customer") {
                 Swal.fire({
                     title: "Success!",
                     text: "User logged in successfully!",
                     icon: "success",
                     confirmButtonText: "OK"
                 }).then(() => {
-                    redirectFunc(4); 
+                    redirectFunc(4); // 4 goes to HomePage.php
                 });
-            } else {
+            } 
+            // 3. Handle incorrect logins
+            else {
                 Swal.fire({
                     title: "Error!",
-                    text: "User not found. Please check your credentials and try again.",
+                    text: "User not found or incorrect password. Please try again.",
                     icon: "error"
                 });
-            }
-        },
-        error: function(xhr){
-            alert(xhr.status + " : " + xhr.responseText);
-        }   
-    });    
-}
-
+            }}
+        }
+    );}
 function updateFunc(userID) {
     var firstName = document.getElementById("txtFirstname").value;
     var lastName = document.getElementById("txtLastname").value;
@@ -244,10 +307,35 @@ function deleteFunc(userID) {
     });
 }
 
-function allowOnlyNumber(element) {
-    element.value = element.value.replace(/[^0-9]/g, "");
+function togglePasswordVisibility(inputId, iconId) {
+    var input = document.getElementById(inputId);
+    var icon = document.getElementById(iconId);
+    if (input.type === "password") {
+        input.type = "text";
+        icon.textContent = "visibility";
+    } else {
+        input.type = "password";
+        icon.textContent = "visibility_off";
+    }
 }
+
+function allowOnlyLetters(element) {
+    element.value = element.value.replace(/[^A-Za-z]/g, "");
+}
+
+function allowSuffixInput(element) {
+    element.value = element.value.replace(/[^A-Za-z.]/g, "");
+}
+
 $(document).ready( function () {
+    // for calendar, restrict date selection to today and past dates only
+    $('.datepicker').datepicker({
+        autoClose: true,
+        format: 'yyyy-mm-dd',
+        maxDate: new Date(),
+        yearRange: [1900, new Date().getFullYear()]
+    });
+
     if ($('#myTable').length) {
         $('#myTable').DataTable();
     }

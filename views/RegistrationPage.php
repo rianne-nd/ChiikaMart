@@ -11,6 +11,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
@@ -161,7 +163,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtBirthday">Birthday</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtBirthday" type="date"/>
+                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface datepicker" id="txtBirthday" placeholder="YYYY-MM-DD" autocomplete="off" type="text"/>
                             <p class="text-[10px] text-outline ml-1">* Optional</p>
                         </div>
                         <div class="space-y-1.5">
@@ -180,12 +182,22 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtPassword">Password</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtPassword" minlength="9" maxlength="254" placeholder="********" required type="password"/>
-                            <p class="text-[10px] text-outline ml-1">* Required, must be more than 8 characters</p>
+                            <div class="relative">
+                                <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface pr-10" id="txtPassword" minlength="9" maxlength="254" placeholder="********" required type="password"/>
+                                <button type="button" onclick="togglePasswordVisibility('txtPassword', 'iconPass')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-primary">
+                                    <span class="material-symbols-outlined text-[20px]" id="iconPass">visibility_off</span>
+                                </button>
+                            </div>
+                            <p class="text-[10px] text-outline ml-1">* Required, >8 chars, 1 uppercase, 1 special char</p>
                         </div>
                         <div class="space-y-1.5">
                             <label class="block text-xs font-label font-bold text-on-surface-variant tracking-wider uppercase ml-1" for="txtConfirmPassword">Confirm</label>
-                            <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface" id="txtConfirmPassword" maxlength="254" placeholder="********" required type="password"/>
+                            <div class="relative">
+                                <input class="w-full px-4 py-3 bg-surface-container-low border-0 focus:ring-2 focus:ring-primary focus:ring-inset rounded-xl transition-all placeholder:text-outline text-sm text-on-surface pr-10" id="txtConfirmPassword" maxlength="254" placeholder="********" required type="password"/>
+                                <button type="button" onclick="togglePasswordVisibility('txtConfirmPassword', 'iconConfirmPass')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-primary">
+                                    <span class="material-symbols-outlined text-[20px]" id="iconConfirmPass">visibility_off</span>
+                                </button>
+                            </div>
                             <p class="text-[10px] text-outline ml-1">* Required</p>
                         </div>
                     </div>
