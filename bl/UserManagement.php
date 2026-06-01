@@ -22,14 +22,13 @@ require_once '../model/registrationModel.php';
                 }
 
             } catch (InvalidArgumentException $ex) {
-                // Handle exception
                 echo $ex->getMessage();
                 exit;
             }
         }
 
-        public function updateUserFunc($firstName, $lastName, $userID)   { 
-            if($this ->regsModel->updateRegistration($firstName, $lastName, $userID)) {
+        public function updateUserFunc($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $street, $barangay, $city, $province, $zipCode, $roleID, $isActive, $userID)   { 
+            if($this ->regsModel->updateRegistration($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $street, $barangay, $city, $province, $zipCode, $roleID, $isActive, $userID)) {
                 echo "true";
             }
                 else {

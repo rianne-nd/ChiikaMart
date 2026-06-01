@@ -36,15 +36,27 @@
 
             return $response->execute();
         } catch (PDOException $ex) {
-            // error handling for database 
             error_log("Database error: " . $ex->getMessage());
             return false;
         }
     }
-    public function updateRegistration ($firstName, $lastName, $userID) {
+    public function updateRegistration ($firstName, $lastName, $suffix, $birthday, $phoneNumber, $email, $street, $barangay, $city, $province, $zipCode, $roleID, $isActive, $userID) {
         try {
             $query = "UPDATE tbl_users
-            SET firstName = :firstName, lastName = :lastName, updatedAt = :updatedAt
+            SET firstName = :firstName,
+                lastName = :lastName,
+                suffix = :suffix,
+                birthday = :birthday,
+                phoneNumber = :phoneNumber,
+                email = :email,
+                street = :street,
+                barangay = :barangay,
+                city = :city,
+                province = :province,
+                zipCode = :zipCode,
+                roleID = :roleID,
+                isActive = :isActive,
+                updatedAt = :updatedAt
             WHERE userID = :userID";
 
             $dateNow = date('Y-m-d H:i:s'); 
@@ -52,6 +64,17 @@
             $response = $this->conn->prepare($query);
             $response->bindParam(':firstName', $firstName);
             $response->bindParam(':lastName', $lastName);
+            $response->bindParam(':suffix', $suffix);
+            $response->bindParam(':birthday', $birthday);
+            $response->bindParam(':phoneNumber', $phoneNumber);
+            $response->bindParam(':email', $email);
+            $response->bindParam(':street', $street);
+            $response->bindParam(':barangay', $barangay);
+            $response->bindParam(':city', $city);
+            $response->bindParam(':province', $province);
+            $response->bindParam(':zipCode', $zipCode);
+            $response->bindParam(':roleID', $roleID);
+            $response->bindParam(':isActive', $isActive);
             $response->bindParam(':userID', $userID);
             $response->bindParam(':updatedAt', $dateNow);
 

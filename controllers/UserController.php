@@ -1,6 +1,5 @@
 <?php
 session_start();
-// UserController.php
 
 require_once '../bl/userManagement.php';
 require_once '../helper/sendEmail.php';
@@ -104,8 +103,38 @@ if (isset($_POST['aFName'], $_POST['aLName'], $_POST['aSuffix'], $_POST['aBirthd
 
     exit;
 
-} else if (isset($_POST['uFName'], $_POST['uLName'], $_POST['uID'])) {
-    $usermanagement->updateUserFunc($_POST['uFName'], $_POST['uLName'], $_POST['uID']);
+} else if (isset(
+    $_POST['uID'],
+    $_POST['uFName'],
+    $_POST['uLName'],
+    $_POST['uSuffix'],
+    $_POST['uBirthday'],
+    $_POST['uPhoneNumber'],
+    $_POST['uEmail'],
+    $_POST['uStreet'],
+    $_POST['uBarangay'],
+    $_POST['uCity'],
+    $_POST['uProvince'],
+    $_POST['uZipCode'],
+    $_POST['uRoleID'],
+    $_POST['uIsActive']
+)) {
+    $usermanagement->updateUserFunc(
+        $_POST['uFName'],
+        $_POST['uLName'],
+        $_POST['uSuffix'],
+        $_POST['uBirthday'],
+        $_POST['uPhoneNumber'],
+        $_POST['uEmail'],
+        $_POST['uStreet'],
+        $_POST['uBarangay'],
+        $_POST['uCity'],
+        $_POST['uProvince'],
+        $_POST['uZipCode'],
+        $_POST['uRoleID'],
+        $_POST['uIsActive'],
+        $_POST['uID']
+    );
     exit;
 } elseif (isset($_POST['dID'])) {
     $usermanagement->deleteUserFunc($_POST['dID']);

@@ -77,6 +77,20 @@
         .chart-container { position: relative; height: 300px; width: 100%; }
         .chart-container.doughnut { height: 250px; }
         #myTable_wrapper { color: #1d1b19; padding: 16px; }
+        #myTable { border-collapse: separate; border-spacing: 0 10px; width: 100%; }
+        #myTable thead th { padding: 12px 16px; }
+        #myTable tbody td { padding: 12px 16px; background-color: #ffffff; }
+        #myTable tbody tr td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+        #myTable tbody tr td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+        .dataTables_filter { margin-bottom: 12px; }
+        .dataTables_filter label { font-weight: 600; color: #41484b; }
+        .dataTables_filter input {
+            margin-left: 8px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid #c1c7cb;
+            background-color: #ffffff;
+        }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
@@ -313,24 +327,83 @@
                         <thead>
                             <tr>
                                 <th>User ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Full Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Registered On</th>
+                                <th>Location</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($users as $index => $user) : ?>
+                                <?php
+                                    $fullName = trim($user['firstName'] . ' ' . $user['lastName']);
+                                    if (!empty($user['suffix'])) {
+                                        $fullName .= ' ' . $user['suffix'];
+                                    }
+
+                                    $roleLabel = ($user['roleID'] == 1) ? 'Admin' : 'Customer';
+                                    $statusLabel = ($user['isActive'] == 1) ? 'Active' : 'Inactive';
+                                    $statusClass = ($user['isActive'] == 1)
+                                        ? 'bg-secondary-container text-on-secondary-container'
+                                        : 'bg-error-container text-on-error-container';
+
+                                    $registeredOn = !empty($user['createdAt'])
+                                        ? date('M d, Y', strtotime($user['createdAt']))
+                                        : 'N/A';
+
+                                    $locationParts = [];
+                                    if (!empty($user['barangay'])) {
+                                        $locationParts[] = $user['barangay'];
+                                    }
+                                    if (!empty($user['city'])) {
+                                        $locationParts[] = $user['city'];
+                                    }
+                                    if (!empty($user['province'])) {
+                                        $locationParts[] = $user['province'];
+                                    }
+                                    $location = !empty($locationParts) ? implode(', ', $locationParts) : 'N/A';
+                                    $registeredOrder = !empty($user['createdAt']) ? strtotime($user['createdAt']) : 0;
+                                ?>
                                 <tr>
-                                    <td><?= $index + 1 ?></td>
-                                    <td><?= $user['firstName'] ?></td>
-                                    <td><?= $user['lastName'] ?></td>
-                                    <td><?= $user['email'] ?></td>
-                                    <td><?= $user['phoneNumber'] ?></td>
+                                    <td><?= $user['userID'] ?></td>
+                                    <td><?= htmlspecialchars($fullName) ?></td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
+                                    <td><?= htmlspecialchars($user['phoneNumber']) ?></td>
+                                    <td><?= htmlspecialchars($roleLabel) ?></td>
+                                    <td>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full <?= $statusClass ?>">
+                                            <?= htmlspecialchars($statusLabel) ?>
+                                        </span>
+                                    </td>
+                                    <td data-order="<?= $registeredOrder ?>"><?= htmlspecialchars($registeredOn) ?></td>
+                                    <td><?= htmlspecialchars($location) ?></td>
                                     <td>
                                         <div class="flex gap-2">
-                                            <button class="px-3 py-2 rounded-lg bg-[#3d6374] text-white text-sm" type="button" onclick="updateFunc(<?= $user['userID'] ?>)">Update</button>
+                                            <button
+                                                class="px-3 py-2 rounded-lg bg-[#3d6374] text-white text-sm"
+                                                type="button"
+                                                onclick="updateFunc(this)"
+                                                data-user-id="<?= $user['userID'] ?>"
+                                                data-first-name="<?= htmlspecialchars($user['firstName'] ?? '', ENT_QUOTES) ?>"
+                                                data-last-name="<?= htmlspecialchars($user['lastName'] ?? '', ENT_QUOTES) ?>"
+                                                data-suffix="<?= htmlspecialchars($user['suffix'] ?? '', ENT_QUOTES) ?>"
+                                                data-birthday="<?= htmlspecialchars($user['birthday'] ?? '', ENT_QUOTES) ?>"
+                                                data-email="<?= htmlspecialchars($user['email'] ?? '', ENT_QUOTES) ?>"
+                                                data-phone="<?= htmlspecialchars($user['phoneNumber'] ?? '', ENT_QUOTES) ?>"
+                                                data-street="<?= htmlspecialchars($user['street'] ?? '', ENT_QUOTES) ?>"
+                                                data-barangay="<?= htmlspecialchars($user['barangay'] ?? '', ENT_QUOTES) ?>"
+                                                data-city="<?= htmlspecialchars($user['city'] ?? '', ENT_QUOTES) ?>"
+                                                data-province="<?= htmlspecialchars($user['province'] ?? '', ENT_QUOTES) ?>"
+                                                data-zip-code="<?= htmlspecialchars($user['zipCode'] ?? '', ENT_QUOTES) ?>"
+                                                data-role-id="<?= $user['roleID'] ?? 2 ?>"
+                                                data-is-active="<?= $user['isActive'] ?? 1 ?>"
+                                            >
+                                                Update
+                                            </button>
                                             <button class="px-3 py-2 rounded-lg bg-red-600 text-white text-sm" type="button" onclick="deleteFunc(<?= $user['userID'] ?>)">Delete</button>
                                         </div>
                                     </td>
